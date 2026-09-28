@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#030b22" />
+    <title>IEEE Quiz Odyssey — Live System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Exo+2:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="app" aria-live="polite"></main>
+    <template id="display-template">
+      <section class="display-shell">
+        <div class="star-field"></div>
+        <div class="neon-grid"></div>
+        <header class="display-header">
+          <div class="college-lockup">
+            <div class="crest">⌁</div>
+            <div><strong>R.M.K. ENGINEERING COLLEGE</strong><span>(An Autonomous Institution)</span><small>R.S.M Nagar, Kavaraipettai – 601 205</small></div>
+          </div>
+          <div class="event-lockup"><b>IEEE DAY 2026</b><span>RMKEC STUDENT BRANCH</span><small>PRESENTS</small></div>
+          <div class="ieee-lockup"><strong>◇ IEEE</strong><span>STUDENT BRANCH</span><small>STB61871</small></div>
+        </header>
+        <section class="round-ribbon">
+          <div class="round-card"><i>◉</i><div><b id="round-label">ROUND 3</b><span id="round-topic">AI &amp; MACHINE LEARNING</span></div></div>
+          <div class="question-count"><b id="question-count">QUESTION 2 / 8</b><div class="progress-dots" id="progress-dots"></div></div>
+          <div class="team-card"><i>♙</i><div><b id="team-label">TEAM 02</b><span id="team-name">Binary Beasts</span></div><em>♛</em></div>
+        </section>
+        <section class="show-area" id="show-area"></section>
+        <section class="team-strip">
+          <div class="leaderboard-title"><i>♛</i> LIVE LEADERBOARD</div>
+          <div class="team-list" id="team-list"></div>
+        </section>
+        <footer class="display-footer"><span id="footer-round">ROUND 3 / 10</span><span id="footer-state">QUESTION IN PLAY</span><span id="footer-question">QUESTION 2 / 8</span></footer>
+      </section>
+    </template>
+    <script src="app.js"></script>
+  </body>
+</html>
