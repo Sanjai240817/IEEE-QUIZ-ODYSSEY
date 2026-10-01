@@ -108,7 +108,37 @@
         <section class="control-card"><div class="question-nav"><button class="nav-btn" data-action="previous" aria-label="Previous question">‹</button><strong>QUESTION ${state.team + 1} / ${teams.length}</strong><button class="nav-btn" data-action="next" aria-label="Next question">›</button></div><div class="card-top"><b>Question</b><button class="tiny-button" data-action="toggle-edit">✎ Edit</button></div><p class="control-question">${question.question}</p><div class="mini-options">${question.choices.map((choice,i)=>`<div class="mini-option ${i === question.answer ? 'correct-answer':''}"><span class="mini-letter">${'ABCD'[i]}</span><span>${escaped(choice)}</span>${i === question.answer ? '<b class="answer-mark">✓</b>':''}</div>`).join('')}</div></section>
         <section class="control-card"><div class="timer-row"><div class="field"><label for="timer-input">Timer (seconds)</label><input id="timer-input" type="number" min="5" max="120" value="${state.limit}" /></div><button class="tiny-button" data-action="reset-timer">Reset Timer</button></div><div class="timer-preset"><button class="preset ${state.limit===10?'selected':''}" data-limit="10">10s</button><button class="preset ${state.limit===20?'selected':''}" data-limit="20">20s</button><button class="preset ${state.limit===30?'selected':''}" data-limit="30">30s</button><button class="preset ${state.limit===45?'selected':''}" data-limit="45">45s</button></div><div class="action-row two"><button class="action start" data-action="start">▶ ${state.running ? 'RUNNING' : 'START TIMER'}</button><button class="action pause" data-action="pause">Ⅱ PAUSE</button></div><button class="action stop" data-action="stop">■ STOP TIMER</button><div class="status-line"><span class="status-dot"></span><span>${state.running ? `Timer is live — ${state.timer} seconds remaining` : `${phaseLabel()} — ready for organizer`}</span></div></section>
         <section class="control-card"><div class="card-top"><b>Mark Team Answer</b><span class="live-pill">VERBAL</span></div><div class="action-row two"><button class="action correct" data-action="correct">✓ &nbsp; CORRECT<br><small>(+10 Points)</small></button><button class="action wrong" data-action="wrong">✕ &nbsp; WRONG<br><small>(Throw to Audience)</small></button></div><div class="secondary-actions"><button class="action audience" data-action="audience">♩ &nbsp; Audience Challenge</button><button class="action reveal" data-action="reveal">◉ &nbsp; Reveal Answer</button></div><div class="secondary-actions"><button class="action secondary" data-action="leaderboard">♛ Show Leaderboard</button><button class="action secondary" data-action="question">↺ Return to Question</button></div></section>
-        <section class="control-card"><div class="card-top"><b>Stage Cue</b><span class="tiny-button">AUDITORIUM</span></div><div class="secondary-actions"><button class="action secondary" data-action="welcome">◇ Event Welcome</button><button class="action secondary" data-action="intro">✦ Round Intro</button></div><div class="secondary-actions"><button class="action secondary" data-action="next-team">⇢ Next Team</button><button class="action secondary" data-action="results">♛ Final Results</button></div></section>
+       <section class="control-card">
+  <div class="card-top">
+    <b>Stage Cue</b>
+    <span class="tiny-button">AUDITORIUM</span>
+  </div>
+
+  <div class="secondary-actions">
+    <button class="action secondary" data-action="welcome">
+      ◇ Event Welcome
+    </button>
+
+    <button class="action secondary" data-action="intro">
+      ✦ Round Intro
+    </button>
+  </div>
+
+  <div class="secondary-actions">
+    <button class="action secondary" data-action="next-team">
+      ⇢ Next Team
+    </button>
+
+    <button class="action secondary" data-action="results">
+      ♛ Final Results
+    </button>
+  </div>
+
+  <!-- RESET ALL TEAM POINTS -->
+  <button class="action reset-scores" data-action="reset-scores">
+    ↻ RESET ALL SCORES
+  </button>
+</section>
         <section class="question-editor" id="question-editor"><div class="card-top"><b>Quick question editor</b><button class="tiny-button" data-action="save-question">Save</button></div><label>Question<textarea id="edit-question">${question.question.replace(/<[^>]*>/g,'')}</textarea></label><div class="option-inputs">${question.choices.map((choice,i)=>`<input id="choice-${i}" value="${escaped(choice)}" aria-label="Choice ${'ABCD'[i]}" />`).join('')}</div><label>Correct choice<select id="correct-choice">${['A','B','C','D'].map((letter,i)=>`<option value="${i}" ${i === question.answer ? 'selected':''}>${letter}</option>`).join('')}</select></label></section>
         <div class="configuration-note" id="setup-note">Pre-event setup is ready: this demo includes 10 round slots, 8 assigned team questions per round, configurable timer limits, and manually controlled scoring. The current browser stores the event state locally; use “Open Display” from the same browser to drive a projector screen in real time.</div>
       </div>

@@ -194,3 +194,91 @@ button { cursor: pointer; }
 .question-box.timer-running { border-color:#55f7ff; box-shadow:inset 0 0 50px rgba(16,94,180,.6),0 0 26px #05bce8,0 0 0 1px rgba(115,255,255,.24); }
 @keyframes timerLabelBlink { 50%{opacity:.38;filter:brightness(1.55)} }
 @keyframes timerDotBlink { 50%{opacity:.2;scale:.5} }
+
+
+/* =========================================
+   RMK COLLEGE LOGO
+   ========================================= */
+
+.college-lockup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rmk-logo {
+    width: 78px;
+    height: 82px;
+    object-fit: contain;
+    flex-shrink: 0;
+
+    filter:
+        drop-shadow(0 0 8px rgba(210, 255, 150, .55))
+        drop-shadow(0 0 16px rgba(100, 180, 255, .25));
+
+    transition:
+        transform .3s ease,
+        filter .3s ease;
+}
+
+/* Small premium glow */
+.rmk-logo:hover {
+    transform: scale(1.05);
+    filter:
+        drop-shadow(0 0 10px rgba(210, 255, 150, .8))
+        drop-shadow(0 0 20px rgba(100, 180, 255, .4));
+}
+
+.college-info {
+    min-width: 0;
+}
+
+/* =========================================
+   RESET ALL SCORES
+   ========================================= */
+
+.reset-scores {
+    width: 100%;
+    margin-top: 12px;
+
+    min-height: 44px;
+
+    background: linear-gradient(
+        135deg,
+        #ff4168,
+        #a90835
+    );
+
+    border: 2px solid #ff8297;
+
+    color: #ffffff;
+
+    font-family: "Exo 2", sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+
+    letter-spacing: .5px;
+
+    box-shadow:
+        inset 0 0 14px rgba(255,255,255,.12),
+        0 0 12px rgba(255,65,104,.35);
+
+    transition:
+        transform .18s ease,
+        filter .18s ease,
+        box-shadow .18s ease;
+}
+
+.reset-scores:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.18);
+
+    box-shadow:
+        inset 0 0 18px rgba(255,255,255,.18),
+        0 0 24px rgba(255,65,104,.7);
+}
+
+.reset-scores:active {
+    transform: scale(.97);
+}
