@@ -8,7 +8,7 @@
   ];
   const teams = [
     ['Code Warriors', '⌬'], ['Binary Beasts', '♙'], ['Tech Titans', '△'], ['Neural Ninjas', '◈'],
-    ['Debuggers', '♧'], ['Pixel Pioneers', '▧'], ['Byte Busters', '◉'], ['Quantum Crew', '⚛']
+    ['Debuggers', '♧'], ['Pixel Pioneers', '▧']
   ];
   const questionBank = [
     { question: 'Which algorithm is commonly used for <mark>clustering</mark> in machine learning?', choices: ['Decision Tree', 'K-Means', 'Linear Regression', 'Apriori'], answer: 1 },
@@ -22,10 +22,13 @@
   ];
   const defaultState = () => ({
     round: 2, team: 1, timer: 20, limit: 20, phase: 'question', running: false,
-    scores: [30, 10, 10, 20, 0, 0, 20, 0], awarded: false, version: 1
+    scores: [30, 10, 10, 20, 0, 0], awarded: false, version: 1
   });
   let state;
   try { state = { ...defaultState(), ...JSON.parse(localStorage.getItem(STORE_KEY) || '{}') }; } catch { state = defaultState(); }
+  state.team = Math.max(0, Math.min(teams.length - 1, Number(state.team) || 0));
+  state.round = Math.max(0, Math.min(rounds.length - 1, Number(state.round) || 0));
+  state.scores = teams.map((_, index) => Math.max(0, Number(state.scores?.[index]) || 0));
   let interval = null;
   let previouslyRenderedKey = null;
   const app = document.getElementById('app');
@@ -46,12 +49,12 @@
       .sort((a,b) => b.score - a.score || a.index - b.index).map((team, index) => ({...team, rank:index + 1}));
   }
   function phaseLabel() {
-    return ({ welcome: 'EVENT WELCOME', intro: 'ROUND INTRODUCTION', question: 'QUESTION IN PLAY', correct: 'TEAM ANSWER: CORRECT', wrong: 'TEAM ANSWER: WRONG', audience: 'AUDIENCE CHALLENGE', reveal: 'ANSWER REVEALED', leaderboard: 'LIVE LEADERBOARD', nextTeam: 'NEXT TEAM', results: 'FINAL RESULTS' })[state.phase] || 'QUESTION IN PLAY';
+    return ({ welcome: 'EVENT WELCOME', intro: 'ROUND INTRODUCTION', question: 'QUESTION IN PLAY', timeUp: "TIME'S UP", correct: 'TEAM ANSWER: CORRECT', wrong: 'TEAM ANSWER: WRONG', audience: 'AUDIENCE CHALLENGE', reveal: 'ANSWER REVEALED', leaderboard: 'LIVE LEADERBOARD', nextTeam: 'NEXT TEAM', results: 'FINAL RESULTS' })[state.phase] || 'QUESTION IN PLAY';
   }
   function timeStyle() { return `${Math.max(0, Math.min(100, (state.timer / state.limit) * 100))}%`; }
   function questionMarkup() {
     const question = getQuestion();
-    return `<div class="question-box"><div class="question-text">${question.question}</div></div>
+    return `<div class="question-box ${state.running ? 'timer-running' : ''}">${state.running ? '<div class="question-live-blink"><i></i>TIMER RUNNING</div>' : ''}<div class="question-text">${question.question}</div></div>
       <div class="timer ${state.timer <= 5 ? 'low' : ''}" style="--ring:${timeStyle()}"><div class="timer-copy"><b>${String(state.timer).padStart(2, '0')}</b><span>SECONDS</span></div></div>
       <div class="answer-grid">${question.choices.map((choice, i) => `<div class="option-card"><span class="choice-letter">${'ABCD'[i]}</span><span>${escaped(choice)}</span></div>`).join('')}</div>`;
   }
@@ -61,9 +64,10 @@
     if (type === 'welcome') return `<div class="announcement welcome"><div class="announcement-content"><div class="symbol">◇</div><p>RMKEC STUDENT BRANCH PRESENTS</p><h1>IEEE QUIZ<br>ODYSSEY</h1><div class="award">THINK • ANALYZE • SOLVE</div></div></div>`;
     if (type === 'intro') return `<div class="announcement intro"><div class="announcement-content"><p>GET READY FOR</p><h1>ROUND ${String(state.round + 1).padStart(2, '0')}</h1><div class="answer-reveal">${rounds[state.round]}</div><p>TEAM ${String(state.team + 1).padStart(2, '0')} • ${teams[state.team][0]}</p></div></div>`;
     if (type === 'nextTeam') return `<div class="announcement next-team"><div class="announcement-content"><p>NEXT UP</p><div class="symbol">${teams[nextTeam][1]}</div><h1>TEAM ${String(nextTeam + 1).padStart(2, '0')}</h1><div class="answer-reveal">${teams[nextTeam][0]}</div></div></div>`;
-    if (type === 'correct') return `<div class="announcement correct"><div class="announcement-content"><div class="symbol">✓</div><h1>CORRECT!</h1><p>${teams[state.team][0]} answered correctly</p><div class="award">+10 POINTS</div></div></div>`;
-    if (type === 'wrong') return `<div class="announcement wrong"><div class="announcement-content"><div class="symbol">×</div><h1>WRONG!</h1><p>TEAM ${String(state.team + 1).padStart(2,'0')} — INCORRECT ANSWER</p><div class="award">QUESTION GOES TO THE AUDIENCE</div></div></div>`;
-    if (type === 'audience') return `<div class="announcement audience"><div class="announcement-content"><div class="symbol">♩</div><h1>AUDIENCE CHALLENGE!</h1><p>${question.question.replace(/<[^>]*>/g,'')}</p><div class="award">CAN YOU ANSWER IT?</div></div></div>`;
+    if (type === 'timeUp') return `<div class="announcement time-up"><div class="announcement-content"><div class="symbol">⌛</div><h1>TIME'S UP!</h1><p>${state.limit} SECONDS HAVE ELAPSED</p></div></div>`;
+    if (type === 'correct') return `<div class="announcement correct"><div class="correct-flash"></div><div class="announcement-content"><div class="symbol correct-symbol" aria-hidden="true"><svg viewBox="0 0 160 130"><path d="M18 66 L58 108 L143 18" /></svg></div><h1>CORRECT!</h1><p>${teams[state.team][0]} answered correctly</p><div class="award">+10 POINTS</div></div></div>`;
+    if (type === 'wrong') return `<div class="announcement wrong"><div class="wrong-shards" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="announcement-content"><div class="symbol wrong-symbol" aria-hidden="true"><i></i><i></i></div><h1>WRONG!</h1><p>TEAM ${String(state.team + 1).padStart(2,'0')} — INCORRECT ANSWER</p><div class="award">QUESTION GOES TO THE AUDIENCE</div></div></div>`;
+    if (type === 'audience') return `<div class="announcement audience"><div class="audience-lights" aria-hidden="true"><i></i><i></i><i></i></div><div class="announcement-content"><div class="symbol audience-symbol" aria-hidden="true"><i></i><i></i><i></i></div><h1>AUDIENCE CHALLENGE!</h1><p>${question.question.replace(/<[^>]*>/g,'')}</p><div class="award">CAN YOU ANSWER IT?</div></div></div>`;
     return `<div class="announcement reveal"><div class="announcement-content"><div class="symbol">✦</div><h1>CORRECT ANSWER</h1><div class="answer-reveal">${'ABCD'[question.answer]}. ${escaped(question.choices[question.answer])}</div></div></div>`;
   }
   function boardMarkup() {
@@ -81,13 +85,13 @@
     display.classList.add(`phase-${state.phase}`);
     target.querySelector('#round-label').textContent = `ROUND ${state.round + 1}`;
     target.querySelector('#round-topic').textContent = rounds[state.round];
-    target.querySelector('#question-count').textContent = `QUESTION ${state.team + 1} / 8`;
+    target.querySelector('#question-count').textContent = `QUESTION ${state.team + 1} / ${teams.length}`;
     target.querySelector('#team-label').textContent = `TEAM ${String(state.team + 1).padStart(2,'0')}`;
     target.querySelector('#team-name').textContent = teams[state.team][0];
     target.querySelector('#footer-round').textContent = `ROUND ${state.round + 1} / 10`;
-    target.querySelector('#footer-question').textContent = `QUESTION ${state.team + 1} / 8`;
+    target.querySelector('#footer-question').textContent = `QUESTION ${state.team + 1} / ${teams.length}`;
     target.querySelector('#footer-state').textContent = phaseLabel();
-    target.querySelector('#progress-dots').innerHTML = Array.from({length:8}, (_, index) => `<i class="${index < state.team ? 'complete' : index === state.team ? 'active' : ''}"></i>`).join('');
+    target.querySelector('#progress-dots').innerHTML = Array.from({length:teams.length}, (_, index) => `<i class="${index < state.team ? 'complete' : index === state.team ? 'active' : ''}"></i>`).join('');
     const showArea = target.querySelector('#show-area');
     showArea.innerHTML = showMarkup();
     if (shouldAnimate) showArea.classList.add('stage-enter');
@@ -101,7 +105,7 @@
       <nav class="control-nav"><button class="active" data-view="live">LIVE CONTROL</button><button data-view="edit">EDIT QUESTION</button><button data-view="setup">EVENT SETUP</button><button data-view="screen">OPEN DISPLAY</button></nav>
       <div class="control-body">
         <div class="selection-grid"><div class="field"><label for="round-select">Round</label><select id="round-select">${rounds.map((round, i) => `<option value="${i}" ${i === state.round ? 'selected':''}>${i + 1} – ${round}</option>`).join('')}</select></div><div class="field"><label for="team-select">Team</label><select id="team-select">${teams.map((team, i) => `<option value="${i}" ${i === state.team ? 'selected':''}>Team ${String(i+1).padStart(2,'0')} – ${team[0]}</option>`).join('')}</select></div></div>
-        <section class="control-card"><div class="question-nav"><button class="nav-btn" data-action="previous" aria-label="Previous question">‹</button><strong>QUESTION ${state.team + 1} / 8</strong><button class="nav-btn" data-action="next" aria-label="Next question">›</button></div><div class="card-top"><b>Question</b><button class="tiny-button" data-action="toggle-edit">✎ Edit</button></div><p class="control-question">${question.question}</p><div class="mini-options">${question.choices.map((choice,i)=>`<div class="mini-option ${i === question.answer ? 'correct-answer':''}"><span class="mini-letter">${'ABCD'[i]}</span><span>${escaped(choice)}</span>${i === question.answer ? '<b class="answer-mark">✓</b>':''}</div>`).join('')}</div></section>
+        <section class="control-card"><div class="question-nav"><button class="nav-btn" data-action="previous" aria-label="Previous question">‹</button><strong>QUESTION ${state.team + 1} / ${teams.length}</strong><button class="nav-btn" data-action="next" aria-label="Next question">›</button></div><div class="card-top"><b>Question</b><button class="tiny-button" data-action="toggle-edit">✎ Edit</button></div><p class="control-question">${question.question}</p><div class="mini-options">${question.choices.map((choice,i)=>`<div class="mini-option ${i === question.answer ? 'correct-answer':''}"><span class="mini-letter">${'ABCD'[i]}</span><span>${escaped(choice)}</span>${i === question.answer ? '<b class="answer-mark">✓</b>':''}</div>`).join('')}</div></section>
         <section class="control-card"><div class="timer-row"><div class="field"><label for="timer-input">Timer (seconds)</label><input id="timer-input" type="number" min="5" max="120" value="${state.limit}" /></div><button class="tiny-button" data-action="reset-timer">Reset Timer</button></div><div class="timer-preset"><button class="preset ${state.limit===10?'selected':''}" data-limit="10">10s</button><button class="preset ${state.limit===20?'selected':''}" data-limit="20">20s</button><button class="preset ${state.limit===30?'selected':''}" data-limit="30">30s</button><button class="preset ${state.limit===45?'selected':''}" data-limit="45">45s</button></div><div class="action-row two"><button class="action start" data-action="start">▶ ${state.running ? 'RUNNING' : 'START TIMER'}</button><button class="action pause" data-action="pause">Ⅱ PAUSE</button></div><button class="action stop" data-action="stop">■ STOP TIMER</button><div class="status-line"><span class="status-dot"></span><span>${state.running ? `Timer is live — ${state.timer} seconds remaining` : `${phaseLabel()} — ready for organizer`}</span></div></section>
         <section class="control-card"><div class="card-top"><b>Mark Team Answer</b><span class="live-pill">VERBAL</span></div><div class="action-row two"><button class="action correct" data-action="correct">✓ &nbsp; CORRECT<br><small>(+10 Points)</small></button><button class="action wrong" data-action="wrong">✕ &nbsp; WRONG<br><small>(Throw to Audience)</small></button></div><div class="secondary-actions"><button class="action audience" data-action="audience">♩ &nbsp; Audience Challenge</button><button class="action reveal" data-action="reveal">◉ &nbsp; Reveal Answer</button></div><div class="secondary-actions"><button class="action secondary" data-action="leaderboard">♛ Show Leaderboard</button><button class="action secondary" data-action="question">↺ Return to Question</button></div></section>
         <section class="control-card"><div class="card-top"><b>Stage Cue</b><span class="tiny-button">AUDITORIUM</span></div><div class="secondary-actions"><button class="action secondary" data-action="welcome">◇ Event Welcome</button><button class="action secondary" data-action="intro">✦ Round Intro</button></div><div class="secondary-actions"><button class="action secondary" data-action="next-team">⇢ Next Team</button><button class="action secondary" data-action="results">♛ Final Results</button></div></section>
@@ -124,19 +128,20 @@
   function beginTimer() {
     if (state.running) return;
     if (state.phase !== 'question') state.phase = 'question';
+    if (state.timer <= 0) state.timer = state.limit;
     state.running = true; persist(); render();
     stopTimer();
     interval = setInterval(() => {
       state.timer = Math.max(0, state.timer - 1);
-      if (state.timer === 0) { state.running = false; stopTimer(); }
+      if (state.timer === 0) { state.running = false; state.phase = 'timeUp'; stopTimer(); }
       persist(); render();
     }, 1000);
   }
   function move(direction) {
     stopTimer();
-    const total = state.round * 8 + state.team + direction;
-    if (total < 0 || total >= 80) return;
-    setState({ round: Math.floor(total / 8), team: total % 8, phase: 'question', timer: state.limit, running: false, awarded: false });
+    const total = state.round * teams.length + state.team + direction;
+    if (total < 0 || total >= rounds.length * teams.length) return;
+    setState({ round: Math.floor(total / teams.length), team: total % teams.length, phase: 'question', timer: state.limit, running: false, awarded: false });
   }
   function updateQuestionFromEditor() {
     const q = getQuestion();
