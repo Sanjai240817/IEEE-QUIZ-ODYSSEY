@@ -43,579 +43,918 @@
   // =========================================================
 
   const questionBank = [
+
   // =========================================================
   // ROUND 1 — BOOT SEQUENCE
   // 1 POINT
   // =========================================================
+
   [
     {
       type: 'normal',
       question: 'Which unit is used to measure the speed of a processor?',
-      choices: ['GHz', 'GB', 'RAM', 'Mbps'],
-      answer: 0,
-      points: 1
-    },
-    {
-      type: 'normal',
-      question: 'Which of the following is an open-source operating system?',
-      choices: ['Windows', 'Linux', 'macOS', 'iOS'],
-      answer: 1,
-      points: 1
-    },
-    {
-      type: 'normal',
-      question: 'Which keyboard shortcut opens Windows Task Manager directly?',
       choices: [
-        'Ctrl + Alt + Delete',
-        'Ctrl + Shift + Esc',
-        'Alt + Tab',
-        'Ctrl + Esc'
+        'GB',
+        'dpi',
+        'GHz',
+        'Mbps'
+      ],
+      answer: 2,
+      points: 1
+    },
+
+    {
+      type: 'normal',
+      question: 'Which of these is an open-source operating system?',
+      choices: [
+        'Windows',
+        'Linux',
+        'macOS',
+        'iOS'
       ],
       answer: 1,
       points: 1
     },
+
     {
       type: 'normal',
-      question: 'In 5G, what does the letter G stand for?',
-      choices: ['Gigabyte', 'Generation', 'Gateway', 'Graph'],
+      question: 'Which shortcut opens Task Manager directly in Windows?',
+      choices: [
+        'Ctrl + Shift + Esc',
+        'Ctrl + Alt + T',
+        'Alt + F4',
+        'Win + D'
+      ],
+      answer: 0,
+      points: 1
+    },
+
+    {
+      type: 'normal',
+      question: 'In "5G", what does the "G" stand for?',
+      choices: [
+        'Gigabit',
+        'Global',
+        'Gateway',
+        'Generation'
+      ],
+      answer: 3,
+      points: 1
+    },
+
+    {
+      type: 'normal',
+      question: 'Which of these storage devices usually gives the fastest read and write speeds?',
+      choices: [
+        'SSD',
+        'Hard disk',
+        'DVD',
+        'Floppy disk'
+      ],
+      answer: 0,
+      points: 1
+    },
+
+    {
+      type: 'normal',
+      question: 'Which file type keeps its layout the same on every device?',
+      choices: [
+        '.exe',
+        '.mp3',
+        '.pdf',
+        '.zip'
+      ],
+      answer: 2,
+      points: 1
+    }
+  ],
+
+
+  // =========================================================
+  // ROUND 2 — TECH OR TRASH
+  // TRUE / FALSE
+  // 1 POINT
+  // =========================================================
+
+  [
+    {
+      type: 'normal',
+      question: 'The first computer mouse was made of wood.',
+      choices: [
+        'True',
+        'False'
+      ],
+      answer: 0,
+      points: 1
+    },
+
+    {
+      type: 'normal',
+      question: 'Bluetooth needs a SIM card to work.',
+      choices: [
+        'True',
+        'False'
+      ],
       answer: 1,
       points: 1
     },
+
     {
       type: 'normal',
-      question: 'Which is the fastest storage device among the following?',
-      choices: ['HDD', 'DVD', 'SSD', 'Floppy Disk'],
-      answer: 2,
+      question: 'Emojis were first created in Japan.',
+      choices: [
+        'True',
+        'False'
+      ],
+      answer: 0,
       points: 1
     },
+
     {
       type: 'normal',
-      question: 'Which file format is commonly used to preserve document layout?',
-      choices: ['TXT', 'PDF', 'CSV', 'EXE'],
+      question: 'YouTube is owned by Meta.',
+      choices: [
+        'True',
+        'False'
+      ],
+      answer: 1,
+      points: 1
+    },
+
+    {
+      type: 'normal',
+      question: 'A smartphone can work as a Wi-Fi hotspot for other devices.',
+      choices: [
+        'True',
+        'False'
+      ],
+      answer: 0,
+      points: 1
+    },
+
+    {
+      type: 'normal',
+      question: 'Incognito mode hides your browsing from your internet service provider.',
+      choices: [
+        'True',
+        'False'
+      ],
       answer: 1,
       points: 1
     }
   ],
 
-  // =========================================================
-  // ROUND 2 — TECH OR TRASH
-  // 1 POINT
-  // =========================================================
-  [
-    {
-      type: 'normal',
-      question: 'The first computer mouse was made of wood.',
-      choices: ['TRUE', 'FALSE'],
-      answer: 0,
-      points: 1
-    },
-    {
-      type: 'normal',
-      question: 'Bluetooth requires a SIM card to work.',
-      choices: ['TRUE', 'FALSE'],
-      answer: 1,
-      points: 1
-    },
-    {
-      type: 'normal',
-      question: 'Emojis were first created in Japan.',
-      choices: ['TRUE', 'FALSE'],
-      answer: 0,
-      points: 1
-    },
-    {
-      type: 'normal',
-      question: 'YouTube is owned by Meta.',
-      choices: ['TRUE', 'FALSE'],
-      answer: 1,
-      points: 1
-    },
-    {
-      type: 'normal',
-      question: 'A smartphone can be used as a Wi-Fi hotspot.',
-      choices: ['TRUE', 'FALSE'],
-      answer: 0,
-      points: 1
-    },
-    {
-      type: 'normal',
-      question: 'Incognito mode hides your browsing activity from your Internet Service Provider.',
-      choices: ['TRUE', 'FALSE'],
-      answer: 1,
-      points: 1
-    }
-  ],
 
   // =========================================================
   // ROUND 3 — GUESS THE LOGO
   // 1 POINT
   // =========================================================
-  // ============================================================
-// ROUND 3 — GUESS THE LOGO
-// 1 POINT
-// ============================================================
-// ============================================================
-// ROUND 3 — GUESS THE LOGO
-// 1 POINT
-// ============================================================
-[
-  {
-    type: 'logo',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original',
-    question: '',
-    choices: [
-      'HackerRank',
-      'LeetCode',
-      'CodeChef',
-      'GeeksforGeeks'
-    ],
-    answer: 1,
-    points: 1
-  },
 
-  {
-    type: 'logo',
-    image: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/google-colab.webp',
-    question: '',
-    choices: [
-      'Jupyter',
-      'Kaggle',
-      'Google Colab',
-      'Replit'
-    ],
-    answer: 2,
-    points: 1
-  },
+  [
+    {
+      type: 'logo',
 
-  {
-    type: 'logo',
-    image: 'https://www.freepnglogos.com/uploads/zoom-logo-png/zoom-logo-video-icon-in-circle-7.png',    
-    question: '',
-    choices: [
-      'Zoom',
-      'Skype',
-      'Google Meet',
-      'Microsoft Teams'
-    ],
-    answer: 0,
-    points: 1
-  },
+      // Show LeetCode logo
+      image: './assets/logos/round3/leetcode.png',
 
-  {
-    type: 'logo',
-    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/960px-Visual_Studio_Code_1.35_icon.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20210804221519',
-    question: '',
-    choices: [
-      'Sublime Text',
-      'Notepad++',
-      'PyCharm',
-      'VS Code'
-    ],
-    answer: 3,
-    points: 1
-  },
+      question: 'Which platform is this?',
 
-  {
-    type: 'logo',
-    image: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-white-icon.png',
-    question: '',
-    choices: [
-      'GitLab',
-      'GitHub',
-      'Bitbucket',
-      'SourceForge'
-    ],
-    answer: 1,
-    points: 1
-  },
+      choices: [
+        'HackerRank',
+        'LeetCode',
+        'CodeChef',
+        'GeeksforGeeks'
+      ],
 
-  {
-    type: 'logo',
-    image: 'https://cdn.simpleicons.org/stackoverflow',
-    question: '',
-    choices: [
-      'Quora',
-      'Reddit',
-      'Stack Overflow',
-      'GeeksforGeeks'
-    ],
-    answer: 2,
-    points: 1
-  }
-],
+      answer: 1,
+      points: 1
+    },
+
+    {
+      type: 'logo',
+
+      // Show Google Colab logo
+      image: './assets/logos/round3/collab.png',
+
+      question: 'Which platform is this?',
+
+      choices: [
+        'Jupyter Notebook',
+        'Kaggle',
+        'Google Colab',
+        'Replit'
+      ],
+
+      answer: 2,
+      points: 1
+    },
+
+    {
+      type: 'logo',
+
+      // Show Zoom logo
+      image: './assets/logos/round3/meeting.png',
+
+      question: 'Which platform is this?',
+
+      choices: [
+        'Zoom',
+        'Skype',
+        'Google Meet',
+        'Microsoft Teams'
+      ],
+
+      answer: 0,
+      points: 1
+    },
+
+    {
+      type: 'logo',
+
+      // Show Visual Studio Code logo
+      image: './assets/logos/round3/vsc.png',
+
+      question: 'Which platform is this?',
+
+      choices: [
+        'Sublime Text',
+        'Notepad++',
+        'PyCharm',
+        'Visual Studio Code'
+      ],
+
+      answer: 3,
+      points: 1
+    },
+
+    {
+      type: 'logo',
+
+      // Show GitHub logo
+      image: './assets/logos/round3/github.png',
+
+      question: 'Which platform is this?',
+
+      choices: [
+        'GitLab',
+        'GitHub',
+        'Bitbucket',
+        'SourceForge'
+      ],
+
+      answer: 1,
+      points: 1
+    },
+
+    {
+      type: 'logo',
+
+      // Show Stack Overflow logo
+      image: './assets/logos/round3/stackoverflow.png',
+
+      question: 'Which platform is this?',
+
+      choices: [
+        'Quora',
+        'Reddit',
+        'Stack Overflow',
+        'GeeksforGeeks'
+      ],
+
+      answer: 2,
+      points: 1
+    }
+  ],
+
+
   // =========================================================
   // ROUND 4 — TECH TUNE-UP
+  // 5 SECOND AUDIO
   // 2 POINTS
   // =========================================================
+
   [
     {
       type: 'audio',
       audio: './assets/audio/round4/team1.mp3',
-      question: '',
-      choices: ['Nokia', 'Samsung', 'Apple', 'Motorola'],
-      answer: 0,
+
+      question: 'Play the classic ringtone. Which brand?',
+
+      choices: [
+        'Motorola',
+        'Nokia',
+        'Sony',
+        'Samsung'
+      ],
+
+      answer: 1,
       points: 2
     },
+
     {
       type: 'audio',
       audio: './assets/audio/round4/team2.mp3',
-      question: '',
-      choices: ['Netflix', 'Amazon Prime', 'Disney+', 'Hotstar'],
+
+      question: 'Play the "ta-dum" intro. Which streaming service?',
+
+      choices: [
+        'Hotstar',
+        'Prime Video',
+        'Netflix',
+        'Disney+'
+      ],
+
+      answer: 2,
+      points: 2
+    },
+
+    {
+      type: 'audio',
+      audio: './assets/audio/round4/team3.mp3',
+
+      question: 'Play the "bong" jingle from the chip ads. Which brand?',
+
+      choices: [
+        'AMD',
+        'NVIDIA',
+        'Qualcomm',
+        'Intel'
+      ],
+
+      answer: 3,
+      points: 2
+    },
+
+    {
+      type: 'audio',
+      audio: './assets/audio/round4/team4.mp3',
+
+      question: 'Play the startup sound. Which operating system?',
+
+      choices: [
+        'Windows',
+        'macOS',
+        'Linux',
+        'Android'
+      ],
+
       answer: 0,
       points: 2
     },
+
     {
       type: 'audio',
-      audio: 'assets/audio/round4/team3.mp3',
-      question: '',
-      choices: ['Intel', 'AMD', 'NVIDIA', 'Qualcomm'],
-      answer: 0,
+      audio: './assets/audio/round4/team5.mp3',
+
+      question: 'Play the startup sound. Which gaming console?',
+
+      choices: [
+        'Xbox',
+        'PlayStation',
+        'Nintendo',
+        'Sega'
+      ],
+
+      answer: 1,
       points: 2
     },
+
     {
       type: 'audio',
-      audio: 'assets/audio/round4/team4.mp3',
-      question: '',
-      choices: ['Windows', 'Linux', 'macOS', 'ChromeOS'],
-      answer: 0,
-      points: 2
-    },
-    {
-      type: 'audio',
-      audio: 'assets/audio/round4/team5.mp3',
-      question: '',
-      choices: ['PlayStation', 'Xbox', 'Nintendo', 'Steam'],
-      answer: 0,
-      points: 2
-    },
-    {
-      type: 'audio',
-      audio: 'assets/audio/round4/team6.mp3',
-      question: '',
-      choices: ['YouTube', 'Spotify', 'Instagram', 'TikTok'],
+      audio: './assets/audio/round4/team6.mp3',
+
+      question: 'Play the sound heard when this app opens on a smart TV. Which app?',
+
+      choices: [
+        'YouTube',
+        'Prime Video',
+        'Hotstar',
+        'Spotify'
+      ],
+
       answer: 0,
       points: 2
     }
   ],
 
+
   // =========================================================
   // ROUND 5 — NAME 3 PRODUCTS
+  // SPOKEN ROUND
+  // 20 SECONDS
   // 2 POINTS
-  // TIMER ONLY
   // =========================================================
+
   [
     {
       type: 'spoken',
-      question: 'Name 3 Google products.',
+      question: 'Name any 3 products of Google.',
       choices: [],
+      acceptedAnswers: [
+        'Maps',
+        'Gmail',
+        'Photos',
+        'Drive',
+        'YouTube',
+        'Chrome',
+        'Search',
+        'Android',
+        'Meet',
+        'Docs',
+        'Translate',
+        'Pixel'
+      ],
       answer: null,
       points: 2
     },
+
     {
       type: 'spoken',
-      question: 'Name 3 Microsoft products.',
+      question: 'Name any 3 products of Microsoft.',
       choices: [],
+      acceptedAnswers: [
+        'Word',
+        'Excel',
+        'PowerPoint',
+        'Outlook',
+        'Teams',
+        'Windows',
+        'Azure',
+        'Xbox',
+        'OneDrive',
+        'Edge',
+        'Surface',
+        'LinkedIn'
+      ],
       answer: null,
       points: 2
     },
+
     {
       type: 'spoken',
-      question: 'Name 3 IDEs or code editors.',
+      question: 'Name any 3 IDEs or code editors.',
       choices: [],
+      acceptedAnswers: [
+        'VS Code',
+        'IntelliJ IDEA',
+        'PyCharm',
+        'Eclipse',
+        'NetBeans',
+        'Android Studio',
+        'Visual Studio',
+        'Xcode',
+        'Sublime Text',
+        'Atom',
+        'Spyder',
+        'Jupyter Notebook'
+      ],
       answer: null,
       points: 2
     },
+
     {
       type: 'spoken',
-      question: 'Name 3 AI tools.',
+      question: 'Name any 3 AI tools.',
       choices: [],
+      acceptedAnswers: [
+        'ChatGPT',
+        'Claude',
+        'Gemini',
+        'Copilot',
+        'Perplexity',
+        'DeepSeek',
+        'Grok',
+        'Midjourney',
+        'DALL-E',
+        'Cursor',
+        'Meta AI'
+      ],
       answer: null,
       points: 2
     },
+
     {
       type: 'spoken',
-      question: 'Name 3 Meta products.',
+      question: 'Name any 3 products of Meta.',
       choices: [],
+      acceptedAnswers: [
+        'Facebook',
+        'Instagram',
+        'WhatsApp',
+        'Messenger',
+        'Threads',
+        'Quest',
+        'Ray-Ban Meta glasses'
+      ],
       answer: null,
       points: 2
     },
+
     {
       type: 'spoken',
-      question: 'Name 3 coding or learning platforms.',
+      question: 'Name any 3 coding or learning platforms.',
       choices: [],
+      acceptedAnswers: [
+        'LeetCode',
+        'HackerRank',
+        'CodeChef',
+        'Codeforces',
+        'GeeksforGeeks',
+        'Coursera',
+        'Udemy',
+        'NPTEL',
+        'freeCodeCamp',
+        'W3Schools',
+        'Codecademy',
+        'Kaggle'
+      ],
       answer: null,
       points: 2
     }
   ],
+
 
   // =========================================================
   // ROUND 6 — TECH CONNECTIONS
   // 2 POINTS
   // =========================================================
+
   [
     {
       type: 'normal',
-      question: 'Oreo, Pie, KitKat and Lollipop are names associated with what?',
+      question: 'Chrome, Firefox, Safari, Edge',
       choices: [
-        'Android versions',
-        'Web browsers',
-        'Programming languages',
-        'Linux distributions'
-      ],
-      answer: 0,
-      points: 2
-    },
-    {
-      type: 'normal',
-      question: 'Photoshop, Illustrator, Premiere Pro and Lightroom belong to which company?',
-      choices: ['Adobe', 'Microsoft', 'Google', 'Apple'],
-      answer: 0,
-      points: 2
-    },
-    {
-      type: 'normal',
-      question: 'Tesla, Ather, Ola Electric and BYD are associated with which industry?',
-      choices: [
-        'Electric vehicles',
-        'Cloud computing',
-        'Social media',
-        'Semiconductors'
-      ],
-      answer: 0,
-      points: 2
-    },
-    {
-      type: 'normal',
-      question: 'Alexa, Siri, Cortana and Bixby are examples of what?',
-      choices: [
-        'Voice assistants',
         'Search engines',
         'Operating systems',
-        'Antivirus software'
+        'Web browsers',
+        'Email apps'
+      ],
+      answer: 2,
+      points: 2
+    },
+
+    {
+      type: 'normal',
+      question: 'Photoshop, Illustrator, Premiere Pro, Lightroom',
+      choices: [
+        'Adobe creative software',
+        'Microsoft Office apps',
+        'Google apps',
+        'Autodesk tools'
       ],
       answer: 0,
       points: 2
     },
+
     {
       type: 'normal',
-      question: 'Jio, Airtel, Vi and BSNL are examples of what?',
+      question: 'Tesla, Ather, Ola Electric, BYD',
+      choices: [
+        'Fuel brands',
+        'Phone brands',
+        'Airlines',
+        'Electric vehicle makers'
+      ],
+      answer: 3,
+      points: 2
+    },
+
+    {
+      type: 'normal',
+      question: 'Alexa, Siri, Cortana, Bixby',
+      choices: [
+        'Search engines',
+        'Voice assistants',
+        'Social apps',
+        'Smart TVs'
+      ],
+      answer: 1,
+      points: 2
+    },
+
+    {
+      type: 'normal',
+      question: 'Jio, Airtel, Vi, BSNL',
       choices: [
         'Mobile network providers',
-        'Cloud platforms',
-        'Laptop manufacturers',
-        'Payment gateways'
+        'Banks',
+        'Phone brands',
+        'Streaming apps'
       ],
       answer: 0,
       points: 2
     },
+
     {
       type: 'normal',
-      question: 'Fitbit, Apple Watch, Galaxy Watch and Mi Band belong to which category?',
+      question: 'Zoom, Google Meet, Microsoft Teams, Skype',
       choices: [
-        'Smartwatches and fitness bands',
-        'Gaming consoles',
-        'Processors',
-        'Web browsers'
+        'Music apps',
+        'Photo editors',
+        'Video calling apps',
+        'Payment apps'
       ],
-      answer: 0,
+      answer: 2,
       points: 2
     }
   ],
+
 
   // =========================================================
   // ROUND 7 — TECH IN DISGUISE
   // 3 POINTS
   // =========================================================
+
   [
     {
       type: 'normal',
-      question: 'Which technology creates a secure connection over an untrusted network?',
-      choices: ['VPN', 'RAM', 'DNS', 'GPU'],
+      question:
+        'I build a private tunnel through the internet, and people use me to appear as if they are in another country. What am I?',
+
+      choices: [
+        'VPN',
+        'Firewall',
+        'Hotspot',
+        'Router'
+      ],
+
       answer: 0,
       points: 3
     },
+
     {
       type: 'normal',
-      question: 'Which temporary storage mechanism helps websites and applications load faster?',
-      choices: ['Cache', 'Compiler', 'Firewall', 'Kernel'],
+      question:
+        "I'm your browser's short-term memory. I save pieces of websites so they load faster next time. What am I?",
+
+      choices: [
+        'Cookie',
+        'History',
+        'Bookmark',
+        'Cache'
+      ],
+
+      answer: 3,
+      points: 3
+    },
+
+    {
+      type: 'normal',
+      question:
+        'I lock your files and demand money to unlock them. What am I?',
+
+      choices: [
+        'Adware',
+        'Ransomware',
+        'Spyware',
+        'Phishing'
+      ],
+
+      answer: 1,
+      points: 3
+    },
+
+    {
+      type: 'normal',
+      question:
+        "I'm a chain of linked blocks that is very hard to tamper with, and I'm the technology behind Bitcoin. What am I?",
+
+      choices: [
+        'Spreadsheet',
+        'Torrent',
+        'Blockchain',
+        'Cloud storage'
+      ],
+
+      answer: 2,
+      points: 3
+    },
+
+    {
+      type: 'normal',
+      question:
+        "I'm a bouncer who decides which traffic gets into your network. What am I?",
+
+      choices: [
+        'Firewall',
+        'Cookie',
+        'Hotspot',
+        'Router'
+      ],
+
       answer: 0,
       points: 3
     },
+
     {
       type: 'normal',
-      question: 'Which type of malware encrypts files and demands payment?',
-      choices: ['Ransomware', 'Spyware', 'Adware', 'Worm'],
-      answer: 0,
-      points: 3
-    },
-    {
-      type: 'normal',
-      question: 'Which technology stores data in linked blocks across a distributed network?',
-      choices: ['Blockchain', 'Bluetooth', 'FTP', 'HTML'],
-      answer: 0,
-      points: 3
-    },
-    {
-      type: 'normal',
-      question: 'Which security system monitors and controls incoming and outgoing network traffic?',
-      choices: ['Firewall', 'Compiler', 'Router', 'Cache'],
-      answer: 0,
-      points: 3
-    },
-    {
-      type: 'normal',
-      question: 'Which attack commonly tricks users into revealing sensitive information through fake messages or websites?',
-      choices: ['Phishing', 'Caching', 'Rendering', 'Debugging'],
-      answer: 0,
+      question:
+        "I send fake messages dressed up as your bank, hoping you'll hand over your password. What am I?",
+
+      choices: [
+        'Ransomware',
+        'Worm',
+        'Phishing',
+        'Adware'
+      ],
+
+      answer: 2,
       points: 3
     }
   ],
+
 
   // =========================================================
   // ROUND 8 — BINARY, BYTES & BEYOND
   // 3 POINTS
   // =========================================================
+
   [
     {
       type: 'normal',
       question: 'Convert binary 10101 to decimal.',
-      choices: ['19', '20', '21', '22'],
+      choices: [
+        '19',
+        '23',
+        '21',
+        '25'
+      ],
       answer: 2,
       points: 3
     },
+
     {
       type: 'normal',
       question: 'Convert binary 11001 to decimal.',
-      choices: ['23', '24', '25', '26'],
-      answer: 2,
+      choices: [
+        '25',
+        '27',
+        '23',
+        '21'
+      ],
+      answer: 0,
       points: 3
     },
+
     {
       type: 'normal',
       question: 'Convert binary 10110 to decimal.',
-      choices: ['20', '21', '22', '23'],
-      answer: 2,
+      choices: [
+        '20',
+        '22',
+        '26',
+        '18'
+      ],
+      answer: 1,
       points: 3
     },
+
     {
       type: 'normal',
       question: 'Convert binary 11010 to decimal.',
-      choices: ['24', '25', '26', '27'],
-      answer: 2,
+      choices: [
+        '24',
+        '28',
+        '22',
+        '26'
+      ],
+      answer: 3,
       points: 3
     },
+
     {
       type: 'normal',
       question: 'Convert binary 10011 to decimal.',
-      choices: ['17', '18', '19', '20'],
-      answer: 2,
+      choices: [
+        '19',
+        '17',
+        '21',
+        '15'
+      ],
+      answer: 0,
       points: 3
     },
+
     {
       type: 'normal',
       question: 'Convert binary 11100 to decimal.',
-      choices: ['26', '27', '28', '29'],
+      choices: [
+        '26',
+        '30',
+        '28',
+        '24'
+      ],
       answer: 2,
       points: 3
     }
   ],
 
-  // =========================================================
-  // ROUND 9 — TECH RAPID FIRE
-  // 3 POINTS / 15 SECONDS
-  // =========================================================
-  [
-    {
-      type: 'normal',
-      question: 'Which AI system defeated a Go world champion?',
-      choices: ['AlphaGo', 'Siri', 'Watson', 'Deep Blue'],
-      answer: 0,
-      points: 3
-    },
-    {
-      type: 'normal',
-      question: 'Which company is famous for manufacturing Core processors?',
-      choices: ['Intel', 'Adobe', 'Cisco', 'Oracle'],
-      answer: 0,
-      points: 3
-    },
-    {
-      type: 'normal',
-      question: 'What was the name of India’s first satellite?',
-      choices: ['Aryabhata', 'Rohini', 'INSAT-1A', 'Chandrayaan-1'],
-      answer: 0,
-      points: 3
-    },
-    {
-      type: 'normal',
-      question: 'Which company is one of the world’s leading semiconductor foundries?',
-      choices: ['TSMC', 'Netflix', 'PayPal', 'Spotify'],
-      answer: 0,
-      points: 3
-    },
-    {
-      type: 'normal',
-      question: 'Which organization operates India’s UPI payment infrastructure?',
-      choices: ['NPCI', 'ISRO', 'DRDO', 'SEBI'],
-      answer: 0,
-      points: 3
-    },
-    {
-      type: 'normal',
-      question: 'Which company developed the iPhone?',
-      choices: ['Apple', 'Google', 'Microsoft', 'Samsung'],
-      answer: 0,
-      points: 3
-    }
-  ],
 
   // =========================================================
-  // ROUND 10 — NOT DECIDED YET
+  // ROUND 9 — TECH RAPID FIRE
+  // ABOUT 15 SECONDS PER QUESTION
+  // 3 POINTS
   // =========================================================
+
   [
     {
-      type: 'empty',
-      question: 'ROUND 10 QUESTIONS NOT ADDED YET',
-      choices: [],
-      answer: null,
-      points: 0
+      type: 'normal',
+      question:
+        "Which AI system, built by Google's DeepMind, beat the world champion of the board game Go in 2016?",
+
+      choices: [
+        'OpenAI Five',
+        'IBM Watson',
+        'AlphaGo',
+        'Siri'
+      ],
+
+      answer: 2,
+      points: 3
     },
+
     {
-      type: 'empty',
-      question: 'ROUND 10 QUESTIONS NOT ADDED YET',
-      choices: [],
-      answer: null,
-      points: 0
+      type: 'normal',
+      question:
+        "Which company launched the world's first commercial microprocessor, the 4004, in 1971?",
+
+      choices: [
+        'Intel',
+        'IBM',
+        'Texas Instruments',
+        'Motorola'
+      ],
+
+      answer: 0,
+      points: 3
     },
+
     {
-      type: 'empty',
-      question: 'ROUND 10 QUESTIONS NOT ADDED YET',
-      choices: [],
-      answer: null,
-      points: 0
+      type: 'normal',
+      question:
+        "What was India's first satellite, launched in 1975?",
+
+      choices: [
+        'INSAT-1A',
+        'Bhaskara',
+        'Rohini',
+        'Aryabhata'
+      ],
+
+      answer: 3,
+      points: 3
     },
+
     {
-      type: 'empty',
-      question: 'ROUND 10 QUESTIONS NOT ADDED YET',
-      choices: [],
-      answer: null,
-      points: 0
+      type: 'normal',
+      question:
+        "Which Taiwanese company is the world's largest contract maker of computer chips?",
+
+      choices: [
+        'Samsung',
+        'Foxconn',
+        'TSMC',
+        'Intel'
+      ],
+
+      answer: 2,
+      points: 3
     },
+
     {
-      type: 'empty',
-      question: 'ROUND 10 QUESTIONS NOT ADDED YET',
-      choices: [],
-      answer: null,
-      points: 0
+      type: 'normal',
+      question:
+        "Which organisation developed UPI, India's instant payment system?",
+
+      choices: [
+        'RBI',
+        'NPCI',
+        'SEBI',
+        'NABARD'
+      ],
+
+      answer: 1,
+      points: 3
     },
+
     {
-      type: 'empty',
-      question: 'ROUND 10 QUESTIONS NOT ADDED YET',
-      choices: [],
-      answer: null,
-      points: 0
+      type: 'normal',
+      question:
+        'Which company became the first US company to reach a $1 trillion market value, in 2018?',
+
+      choices: [
+        'Amazon',
+        'Apple',
+        'Microsoft',
+        'Google'
+      ],
+
+      answer: 1,
+      points: 3
     }
+
   ]
+
 ];
 
   // =========================================================
