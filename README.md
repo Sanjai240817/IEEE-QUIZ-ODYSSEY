@@ -1,6 +1,6 @@
 # IEEE Quiz Odyssey — Live System
 
-An install-free, browser-based control room and auditorium screen for an 8-team, 10-round quiz event.
+An install-free, browser-based control room and auditorium screen for a 6-team, 10-round quiz event.
 
 ## Run it
 
@@ -17,4 +17,4 @@ Use **OPEN DISPLAY** to open `?screen=display` in a second browser window for th
 5. For a wrong answer, cue **Audience Challenge** then **Reveal Answer**.
 6. Cue the live leaderboard or final results whenever needed, then move to the next assigned question.
 
-The app includes ten round slots, eight teams, configurable 10/20/30/45-second timers, pre-seeded AI/ML question examples, a compact question editor, and persistent scores for the current browser.
+The website includes ten round slots, six teams, configurable 10/20/30/45-second timers, pre-seeded AI/ML question examples, a compact question editor, and persistent scores for the current browser.
