@@ -1189,6 +1189,68 @@ function stopQuizAudio() {
     quizAudio.currentTime = 0;
   }
 }
+
+// =========================================================
+// ROUND INTRO SOUND
+// =========================================================
+
+const INTRO_SOUND_SRC = './assets/audio/intro/kbc_break.mp3';
+const INTRO_SOUND_LOOP = false;          // true = repeat for the full 30 s
+const PLAY_INTRO_ON_ORGANIZER = true;    // set false at the real event
+
+let introAudio = null;
+let introKey = null;
+
+function getIntroAudio() {
+  if (!introAudio) {
+    introAudio = new Audio(INTRO_SOUND_SRC);
+    introAudio.preload = 'auto';
+    introAudio.addEventListener('error', () =>
+      console.error('Intro sound file not found:', INTRO_SOUND_SRC)
+    );
+  }
+  return introAudio;
+}
+
+// First click anywhere: silently unlock audio for this window
+function primeIntroAudio() {
+  const a = getIntroAudio();
+  if (!a.paused) return;                 // don't interrupt a playing intro
+  a.muted = true;
+  a.play()
+    .then(() => { a.pause(); a.currentTime = 0; a.muted = false; })
+    .catch(() => { a.muted = false; });
+}
+['click', 'keydown', 'touchstart'].forEach(evt =>
+  document.addEventListener(evt, primeIntroAudio, { once: true })
+);
+
+function handleIntroSound() {
+  const isIntro = state.phase === 'intro';
+  const canPlayHere = isScreenOnly || PLAY_INTRO_ON_ORGANIZER;
+  const key = isIntro ? `${state.round}:${state.animationId}` : null;
+
+  // New intro shown -> play from the start
+  if (isIntro && canPlayHere && key !== introKey) {
+    introKey = key;
+    const a = getIntroAudio();
+    a.muted = false;
+    a.loop = INTRO_SOUND_LOOP;
+    a.currentTime = 0;
+    a.play().catch(err =>
+      console.warn('Intro sound blocked or missing:', err)
+    );
+  }
+
+  // Left the intro -> stop and reset
+  if (!isIntro && introKey) {
+    introKey = null;
+    if (introAudio) {
+      introAudio.pause();
+      introAudio.currentTime = 0;
+    }
+  }
+}
   // =========================================================
   // SAVE / SYNC
   // =========================================================
@@ -2830,6 +2892,7 @@ if (shouldAnimate) {
 
   function render() {
     handleWarningSound();
+     handleIntroSound();
     const renderKey =
   `${state.phase}:${state.round}:${state.team}:${state.awarded}:${state.animationId}`;
 
