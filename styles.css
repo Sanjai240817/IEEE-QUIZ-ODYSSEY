@@ -673,59 +673,39 @@ button { cursor: pointer; }
    ========================================================= */
 
 .announcement::after {
-
-    content: "" !important;
-
-    position: absolute !important;
-
-    inset: 0 !important;
-
-    width: 100% !important;
-
-    height: 100% !important;
-
-    margin: 0 !important;
-
-    pointer-events: none !important;
-
-    z-index: 1 !important;
-
-    transform-origin: center center !important;
-
-    /*
-       FIXED RAY PATTERN
-
-       IMPORTANT:
-       No scale.
-       No background-size animation.
-       No width change.
-       No height change.
-    */
-
-    background:
-        repeating-conic-gradient(
-            from 0deg at 50% 50%,
-
-            transparent 0deg 8deg,
-
-            rgba(80, 245, 255, .20) 8deg 10deg,
-
-            transparent 10deg 18deg
-        ) !important;
-
-    /*
-       ONLY ROTATION
-    */
-
-    animation:
-        quizOdysseyRays
-        8s
-        linear
-        infinite !important;
-
-    will-change: transform;
+  content: "";
+  position: absolute;
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  width: 150vmax;
+  height: 150vmax;
+  pointer-events: none;
+  z-index: 0;
+  transform-origin: center;
+  animation: quizOdysseyRays 8s linear infinite;
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent 0deg 41deg,
+      rgba(229, 255, 241, .82) 41deg 44deg,
+      transparent 44deg 137deg,
+      rgba(154, 255, 204, .7) 137deg 141deg,
+      transparent 141deg 259deg,
+      rgba(229, 255, 241, .58) 259deg 262deg,
+      transparent 262deg 360deg
+    ),
+    repeating-conic-gradient(
+      from 0deg,
+      rgba(112, 255, 188, .34) 0deg 3deg,
+      transparent 3deg 16deg
+    );
 }
 
+@keyframes quizOdysseyRays {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
 
 /* =========================================================
    CORRECT
@@ -1201,4 +1181,567 @@ div.announcement::before {
     text-align: center !important;
 
     align-self: center !important;
+}
+
+/* =========================================================
+   ROUND 3 — LOGO DISPLAY
+   ========================================================= */
+
+.logo-display {
+    width: 100%;
+    min-height: 280px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.quiz-logo {
+    display: block;
+
+    width: 220px;
+    height: 220px;
+
+    object-fit: contain;
+
+    max-width: 80%;
+    max-height: 80%;
+
+    opacity: 1;
+    visibility: visible;
+
+    position: relative;
+    z-index: 10;
+}
+
+/* =========================================================
+   ROUND 4 — TECH TUNE-UP AUDIO
+   ========================================================= */
+
+.audio-round {
+    width: 100%;
+    min-height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    gap: 24px;
+
+    padding: 35px 20px;
+    box-sizing: border-box;
+}
+
+.audio-round .question-live-blink {
+    align-self: flex-start;
+}
+
+.audio-title {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin: 10px 0;
+}
+
+.audio-round audio {
+    display: none !important;
+}
+
+.audio-play-button {
+    display: flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 240px;
+    height: 70px;
+
+    padding: 0 25px;
+
+    border: 2px solid #00eaff;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #063b72,
+        #087fc1
+    );
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 15px rgba(0, 220, 255, 0.45),
+        inset 0 0 15px rgba(0, 220, 255, 0.15);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.audio-play-button:hover {
+    transform: scale(1.05);
+
+    box-shadow:
+        0 0 25px rgba(0, 220, 255, 0.8),
+        0 0 50px rgba(0, 220, 255, 0.25);
+}
+
+.audio-play-button:active {
+    transform: scale(0.97);
+}
+
+.audio-hint {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+
+/* =========================================================
+   FINAL STATIC BACK RAYS
+   NO ROTATION
+   NO ANIMATION
+   ========================================================= */
+
+.announcement::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: 50% !important;
+    top: 50% !important;
+
+    width: 220% !important;
+    height: 220% !important;
+
+    margin-left: -110% !important;
+    margin-top: -110% !important;
+
+    border-radius: 50% !important;
+
+    pointer-events: none !important;
+
+    z-index: 0 !important;
+
+    /*
+       STATIC ONLY
+    */
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+
+    opacity: 1 !important;
+
+    background:
+        conic-gradient(
+            from 0deg,
+
+            transparent 0deg 8deg,
+            rgba(80, 245, 255, .42) 9deg 11deg,
+
+            transparent 12deg 28deg,
+            rgba(39, 183, 255, .32) 29deg 32deg,
+
+            transparent 33deg 48deg,
+            rgba(80, 245, 255, .38) 49deg 52deg,
+
+            transparent 53deg 72deg,
+            rgba(138, 72, 255, .30) 73deg 76deg,
+
+            transparent 77deg 96deg,
+            rgba(80, 245, 255, .36) 97deg 100deg,
+
+            transparent 101deg 120deg,
+            rgba(39, 183, 255, .30) 121deg 124deg,
+
+            transparent 125deg 145deg,
+            rgba(80, 245, 255, .40) 146deg 149deg,
+
+            transparent 150deg 170deg,
+            rgba(138, 72, 255, .28) 171deg 174deg,
+
+            transparent 175deg 195deg,
+            rgba(80, 245, 255, .36) 196deg 199deg,
+
+            transparent 200deg 220deg,
+            rgba(39, 183, 255, .30) 221deg 224deg,
+
+            transparent 225deg 245deg,
+            rgba(80, 245, 255, .38) 246deg 249deg,
+
+            transparent 250deg 270deg,
+            rgba(138, 72, 255, .28) 271deg 274deg,
+
+            transparent 275deg 295deg,
+            rgba(80, 245, 255, .36) 296deg 299deg,
+
+            transparent 300deg 320deg,
+            rgba(39, 183, 255, .30) 321deg 324deg,
+
+            transparent 325deg 345deg,
+            rgba(80, 245, 255, .38) 346deg 349deg,
+
+            transparent 350deg 360deg
+        ) !important;
+
+    /*
+       Make the rays fade toward the center/edges
+    */
+    mask-image: radial-gradient(
+        circle,
+        black 0%,
+        black 45%,
+        transparent 85%
+    ) !important;
+
+    -webkit-mask-image: radial-gradient(
+        circle,
+        black 0%,
+        black 45%,
+        transparent 85%
+    ) !important;
+}
+
+
+/* =========================================================
+   CORRECT = STATIC GREEN RAYS
+   ========================================================= */
+
+.phase-correct .announcement::before {
+
+    background:
+        conic-gradient(
+            from 0deg,
+
+            transparent 0deg 8deg,
+            rgba(51, 240, 160, .60) 9deg 12deg,
+
+            transparent 13deg 28deg,
+            rgba(51, 240, 160, .38) 29deg 32deg,
+
+            transparent 33deg 48deg,
+            rgba(112, 255, 188, .52) 49deg 53deg,
+
+            transparent 54deg 72deg,
+            rgba(51, 240, 160, .36) 73deg 77deg,
+
+            transparent 78deg 96deg,
+            rgba(112, 255, 188, .48) 97deg 101deg,
+
+            transparent 102deg 120deg,
+            rgba(51, 240, 160, .34) 121deg 125deg,
+
+            transparent 126deg 145deg,
+            rgba(112, 255, 188, .50) 146deg 150deg,
+
+            transparent 151deg 170deg,
+            rgba(51, 240, 160, .34) 171deg 175deg,
+
+            transparent 176deg 195deg,
+            rgba(112, 255, 188, .48) 196deg 200deg,
+
+            transparent 201deg 220deg,
+            rgba(51, 240, 160, .34) 221deg 225deg,
+
+            transparent 226deg 245deg,
+            rgba(112, 255, 188, .50) 246deg 250deg,
+
+            transparent 251deg 270deg,
+            rgba(51, 240, 160, .34) 271deg 275deg,
+
+            transparent 276deg 295deg,
+            rgba(112, 255, 188, .48) 296deg 300deg,
+
+            transparent 301deg 320deg,
+            rgba(51, 240, 160, .34) 321deg 325deg,
+
+            transparent 326deg 345deg,
+            rgba(112, 255, 188, .50) 346deg 350deg,
+
+            transparent 351deg 360deg
+        ) !important;
+
+    animation: none !important;
+    transform: none !important;
+}
+
+
+/* =========================================================
+   WRONG = STATIC RED RAYS
+   ========================================================= */
+
+.phase-wrong .announcement::before {
+
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+
+            transparent 0deg 8deg,
+
+            rgba(255, 65, 104, .55) 9deg 12deg,
+
+            transparent 13deg 25deg,
+
+            rgba(255, 91, 116, .35) 26deg 29deg,
+
+            transparent 30deg 45deg
+        ) !important;
+
+    animation: none !important;
+    transform: none !important;
+}
+
+
+/* =========================================================
+   AUDIENCE = STATIC PURPLE/CYAN RAYS
+   ========================================================= */
+
+.phase-audience .announcement::before {
+
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+
+            transparent 0deg 8deg,
+
+            rgba(190, 114, 255, .50) 9deg 12deg,
+
+            transparent 13deg 25deg,
+
+            rgba(80, 245, 255, .35) 26deg 30deg,
+
+            transparent 31deg 45deg
+        ) !important;
+
+    animation: none !important;
+    transform: none !important;
+}
+
+
+/* =========================================================
+   ANSWER REVEAL = STATIC GOLD RAYS
+   ========================================================= */
+
+.phase-reveal .announcement::before {
+
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+
+            transparent 0deg 8deg,
+
+            rgba(255, 217, 77, .55) 9deg 12deg,
+
+            transparent 13deg 25deg,
+
+            rgba(255, 230, 120, .36) 26deg 30deg,
+
+            transparent 31deg 45deg
+        ) !important;
+
+    animation: none !important;
+    transform: none !important;
+}
+
+
+/* =========================================================
+   TIME UP = STATIC RED/PINK RAYS
+   ========================================================= */
+
+.phase-timeUp .announcement::before {
+
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+
+            transparent 0deg 8deg,
+
+            rgba(255, 65, 104, .55) 9deg 12deg,
+
+            transparent 13deg 25deg,
+
+            rgba(255, 137, 155, .38) 26deg 30deg,
+
+            transparent 31deg 45deg
+        ) !important;
+
+    animation: none !important;
+    transform: none !important;
+}
+
+
+/* =========================================================
+   ROUND INTRO = STATIC PURPLE RAYS
+   ========================================================= */
+
+.announcement.intro::before,
+.announcement.welcome::before,
+.announcement.next-team::before {
+
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+
+            transparent 0deg 8deg,
+
+            rgba(138, 72, 255, .55) 9deg 12deg,
+
+            transparent 13deg 25deg,
+
+            rgba(190, 114, 255, .35) 26deg 30deg,
+
+            transparent 31deg 45deg
+        ) !important;
+
+    animation: none !important;
+    transform: none !important;
+}
+
+
+/* =========================================================
+   IMPORTANT
+   REMOVE OLD ROTATING ::AFTER RAYS
+   ========================================================= */
+
+.announcement::after {
+
+    content: none !important;
+
+    animation: none !important;
+
+    transform: none !important;
+
+    transition: none !important;
+}
+
+
+/* =========================================================
+   CONTENT MUST STAY ABOVE RAYS
+   ========================================================= */
+
+.announcement-content {
+
+    position: relative !important;
+
+    z-index: 10 !important;
+
+    transform: none !important;
+
+    animation: none !important;
+}
+
+/* =========================================================
+   STATIC RAYS (painted in the panel background)
+   ========================================================= */
+
+/* Per-phase ray colour + glow */
+.display-shell                .announcement { --ray: rgba(80,245,255,.30);  --glow: rgba(13,62,70,.96);  --edge: var(--blue); }
+.display-shell.phase-correct  .announcement { --ray: rgba(112,255,188,.42); --glow: rgba(30,171,94,.55); --edge: var(--green); }
+.display-shell.phase-wrong    .announcement { --ray: rgba(255,91,116,.42);  --glow: rgba(188,10,55,.50); --edge: var(--red); }
+.display-shell.phase-timeUp   .announcement { --ray: rgba(255,91,116,.40);  --glow: rgba(188,10,55,.50); --edge: var(--red); }
+.display-shell.phase-audience .announcement { --ray: rgba(190,114,255,.42); --glow: rgba(108,39,189,.55); --edge: #bc72ff; }
+.display-shell.phase-reveal   .announcement { --ray: rgba(255,217,77,.40);  --glow: rgba(194,114,9,.50);  --edge: var(--gold); }
+.display-shell.phase-intro    .announcement,
+.display-shell.phase-welcome  .announcement,
+.display-shell.phase-nextTeam .announcement { --ray: rgba(138,72,255,.40);  --glow: rgba(75,16,170,.55);  --edge: var(--purple); }
+
+/* The panel itself: rays + glow + dark base, all static */
+.display-shell .announcement {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0,12,10,.75) 0, transparent 14%),
+    repeating-conic-gradient(from 0deg at 50% 50%,
+      var(--ray) 0deg 6deg,
+      transparent 6deg 15deg),
+    radial-gradient(ellipse at 50% 50%, var(--glow) 0%, rgba(2,12,25,.97) 85%)
+    !important;
+  border-color: var(--edge) !important;
+}
+
+/* Turn off every old pseudo-element ray layer */
+.display-shell .announcement::before,
+.display-shell .announcement::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Text/icons stay above everything */
+.announcement-content { position: relative; z-index: 10; }
+
+
+/* =========================================================
+   ROTATING RAYS (clockwise) - panel stays static
+   ========================================================= */
+
+/* Static panel: glow + dark base only, no rays */
+.display-shell .announcement {
+  background:
+    radial-gradient(ellipse at 50% 50%, var(--glow) 0%, rgba(2,12,25,.97) 85%)
+    !important;
+  border-color: var(--edge) !important;
+}
+
+/* Rotating rays layer (big square, centred, clipped by the panel) */
+.display-shell .announcement::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 200vmax !important;
+  height: 200vmax !important;
+  margin: -100vmax 0 0 -100vmax !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  opacity: 1 !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  border-radius: 0 !important;
+
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    var(--ray) 0deg 6deg,
+    transparent 6deg 15deg
+  ) !important;
+
+  transform: none !important;
+  animation: raysClockwise 14s linear infinite !important;
+}
+
+/* Dark centre spot above the rays, below the text */
+.display-shell .announcement::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  animation: none !important;
+  transform: none !important;
+  background: radial-gradient(circle at 50% 50%, rgba(0,12,10,.75) 0, transparent 14%) !important;
+}
+
+/* Text and icons above everything */
+.announcement-content {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* Uses the separate "rotate" property, so the old
+   "transform: none !important" rules can't block it */
+@keyframes raysClockwise {
+  from { rotate: 0deg; }
+  to   { rotate: 360deg; }
 }

@@ -150,62 +150,99 @@
   // ROUND 3 — GUESS THE LOGO
   // 1 POINT
   // =========================================================
-  [
-    {
-      type: 'logo',
-      image: 'assets/logos/round3/team1.png',
-      question: '',
-      choices: ['HackerRank', 'LeetCode', 'CodeChef', 'GeeksforGeeks'],
-      answer: 1,
-      points: 1
-    },
-    {
-      type: 'logo',
-      image: 'assets/logos/round3/team2.png',
-      question: '',
-      choices: ['Jupyter', 'Kaggle', 'Google Colab', 'Replit'],
-      answer: 2,
-      points: 1
-    },
-    {
-      type: 'logo',
-      image: 'assets/logos/round3/team3.png',
-      question: '',
-      choices: [
-        'YOUR OPTION A',
-        'YOUR OPTION B',
-        'YOUR OPTION C',
-        'YOUR OPTION D'
-      ],
-      answer: 0,
-      points: 1
-    },
-    {
-      type: 'logo',
-      image: 'assets/logos/round3/team4.png',
-      question: '',
-      choices: ['Sublime Text', 'Notepad++', 'PyCharm', 'VS Code'],
-      answer: 3,
-      points: 1
-    },
-    {
-      type: 'logo',
-      image: 'assets/logos/round3/team5.png',
-      question: '',
-      choices: ['GitLab', 'GitHub', 'Bitbucket', 'SourceForge'],
-      answer: 1,
-      points: 1
-    },
-    {
-      type: 'logo',
-      image: 'assets/logos/round3/team6.png',
-      question: '',
-      choices: ['Quora', 'Reddit', 'Stack Overflow', 'GeeksforGeeks'],
-      answer: 2,
-      points: 1
-    }
-  ],
+  // ============================================================
+// ROUND 3 — GUESS THE LOGO
+// 1 POINT
+// ============================================================
+// ============================================================
+// ROUND 3 — GUESS THE LOGO
+// 1 POINT
+// ============================================================
+[
+  {
+    type: 'logo',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original',
+    question: '',
+    choices: [
+      'HackerRank',
+      'LeetCode',
+      'CodeChef',
+      'GeeksforGeeks'
+    ],
+    answer: 1,
+    points: 1
+  },
 
+  {
+    type: 'logo',
+    image: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/google-colab.webp',
+    question: '',
+    choices: [
+      'Jupyter',
+      'Kaggle',
+      'Google Colab',
+      'Replit'
+    ],
+    answer: 2,
+    points: 1
+  },
+
+  {
+    type: 'logo',
+    image: 'https://www.freepnglogos.com/uploads/zoom-logo-png/zoom-logo-video-icon-in-circle-7.png',    
+    question: '',
+    choices: [
+      'Zoom',
+      'Skype',
+      'Google Meet',
+      'Microsoft Teams'
+    ],
+    answer: 0,
+    points: 1
+  },
+
+  {
+    type: 'logo',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/960px-Visual_Studio_Code_1.35_icon.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20210804221519',
+    question: '',
+    choices: [
+      'Sublime Text',
+      'Notepad++',
+      'PyCharm',
+      'VS Code'
+    ],
+    answer: 3,
+    points: 1
+  },
+
+  {
+    type: 'logo',
+    image: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-white-icon.png',
+    question: '',
+    choices: [
+      'GitLab',
+      'GitHub',
+      'Bitbucket',
+      'SourceForge'
+    ],
+    answer: 1,
+    points: 1
+  },
+
+  {
+    type: 'logo',
+    image: 'https://cdn.simpleicons.org/stackoverflow',
+    question: '',
+    choices: [
+      'Quora',
+      'Reddit',
+      'Stack Overflow',
+      'GeeksforGeeks'
+    ],
+    answer: 2,
+    points: 1
+  }
+],
   // =========================================================
   // ROUND 4 — TECH TUNE-UP
   // 2 POINTS
@@ -213,7 +250,7 @@
   [
     {
       type: 'audio',
-      audio: 'assets/audio/round4/team1.mp3',
+      audio: './assets/audio/round4/team1.mp3',
       question: '',
       choices: ['Nokia', 'Samsung', 'Apple', 'Motorola'],
       answer: 0,
@@ -221,7 +258,7 @@
     },
     {
       type: 'audio',
-      audio: 'assets/audio/round4/team2.mp3',
+      audio: './assets/audio/round4/team2.mp3',
       question: '',
       choices: ['Netflix', 'Amazon Prime', 'Disney+', 'Hotstar'],
       answer: 0,
@@ -694,6 +731,125 @@ function getRoundTimer(roundIndex) {
       return 20;
   }
 }
+// =========================================================
+// TIME WARNING SOUND (last 5 seconds + buzzer)
+// =========================================================
+
+const WARNING_AT = 5;
+const SILENT_TIMER_ROUNDS = [3];
+// true  = organizer window also plays the sound (good for testing)
+// false = only the auditorium display window (?screen=display) plays it
+const PLAY_WARNING_ON_ORGANIZER = true;
+
+let audioCtx = null;
+let lastTickKey = null;
+let lastPhaseSeen = null;
+
+function unlockAudio() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  } catch (e) {}
+}
+
+// Browsers block sound until the page gets one click/key press
+['click', 'keydown', 'touchstart'].forEach(evt =>
+  document.addEventListener(evt, unlockAudio)
+);
+
+function beep(freq, duration, volume = 0.25, type = 'sine', delay = 0) {
+  if (!audioCtx || audioCtx.state !== 'running') return;
+
+  const start = audioCtx.currentTime + delay;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, start);
+
+  gain.gain.setValueAtTime(0.0001, start);
+  gain.gain.exponentialRampToValueAtTime(volume, start + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(start);
+  osc.stop(start + duration + 0.05);
+}
+
+function handleWarningSound() {
+  if (isScreenOnly === false && !PLAY_WARNING_ON_ORGANIZER) return;
+
+  // No timer sounds in silent rounds (Round 4 audio round)
+  if (SILENT_TIMER_ROUNDS.includes(state.round)) {
+    lastPhaseSeen = state.phase;   // keep phase tracking in sync
+    return;
+  }
+
+  // Countdown ticks: 5, 4, 3, 2, 1
+  if (
+    state.phase === 'question' &&
+    state.running &&
+    state.limit > WARNING_AT &&          // skip very short timers (Round 4 = 5s)
+    state.timer > 0 &&
+    state.timer <= WARNING_AT
+  ) {
+    const key = `${state.round}:${state.team}:${state.timer}`;
+
+    if (key !== lastTickKey) {
+      lastTickKey = key;
+
+      // Pitch rises as time runs out
+      const freq = 700 + (WARNING_AT - state.timer) * 120;
+      beep(freq, 0.18, 0.3, 'square');
+    }
+  }
+
+  // Final buzzer when the timer reaches 0
+  if (
+    state.phase === 'timeUp' &&
+    lastPhaseSeen === 'question'
+  ) {
+    beep(220, 0.9, 0.35, 'sawtooth');
+    beep(180, 0.9, 0.35, 'sawtooth', 0.05);
+  }
+
+  lastPhaseSeen = state.phase;
+}
+
+// =========================================================
+// PERSISTENT QUIZ AUDIO (survives re-renders)
+// =========================================================
+
+let quizAudio = null;
+let quizAudioSrc = null;
+
+function getQuizAudio(src) {
+  if (!quizAudio || quizAudioSrc !== src) {
+    if (quizAudio) quizAudio.pause();
+
+    quizAudio = new Audio(src);
+    quizAudio.preload = 'auto';
+    quizAudioSrc = src;
+
+    quizAudio.addEventListener('ended', () => {
+      const btn = document.getElementById('play-audio');
+      if (btn) btn.textContent = '▶ PLAY AUDIO';
+    });
+  }
+  return quizAudio;
+}
+
+function stopQuizAudio() {
+  if (quizAudio) {
+    quizAudio.pause();
+    quizAudio.currentTime = 0;
+  }
+}
   // =========================================================
   // SAVE / SYNC
   // =========================================================
@@ -855,11 +1011,7 @@ function setState(change) {
           🎵 LISTEN CAREFULLY
         </div>
 
-        <audio
-          id="quiz-audio"
-          src="${question.audio}"
-          preload="auto"
-        ></audio>
+      
 
         <button
           class="audio-play-button"
@@ -869,9 +1021,7 @@ function setState(change) {
           ▶ PLAY AUDIO
         </button>
 
-        <div class="audio-hint">
-          IDENTIFY THE BRAND / SOUND
-        </div>
+        
 
       </div>
 
@@ -1413,18 +1563,52 @@ function setState(change) {
 showArea.innerHTML =
   showMarkup();
 
-/* =====================================================
-   ROUND 5 — FORCE FULL-WIDTH CENTER STAGE
-   ===================================================== */
+// =====================================================
+// ROUND 4 — AUDIO PLAY CONTROL
+// =====================================================
 
-const currentQuestion = getQuestion();
+const playButton = target.querySelector('#play-audio');
+const currentQ = getQuestion();
 
-/* Reset previous inline layout */
-showArea.style.gridTemplateColumns = '';
-showArea.style.gridTemplateRows = '';
-showArea.style.gap = '';
-showArea.style.padding = '';
+if (playButton && currentQ.type === 'audio') {
 
+  const audio = getQuizAudio(currentQ.audio);
+
+  // Redrawn button must show the real state
+  playButton.textContent = audio.paused
+    ? '▶ PLAY AUDIO'
+    : '⏸ PAUSE AUDIO';
+
+    playButton.addEventListener('click', async () => {
+    try {
+      if (audio.paused) {
+        await audio.play();
+        playButton.textContent = '⏸ PAUSE AUDIO';
+
+        // Start the timer automatically when the audio starts
+        if (state.phase === 'question' && !state.running) {
+          if (isScreenOnly) {
+            // Display window: ask the organizer window to start it
+            channel?.postMessage({ command: 'start-timer' });
+          } else {
+            // Organizer window: start it directly
+            beginTimer();
+          }
+        }
+      } else {
+        audio.pause();
+        playButton.textContent = '▶ PLAY AUDIO';
+      }
+    } catch (error) {
+      console.error('Audio playback failed:', error);
+      playButton.textContent = '⚠ AUDIO ERROR';
+    }
+  });
+
+} else {
+  // Not on an audio question: make sure nothing keeps playing
+  stopQuizAudio();
+}
 showArea.classList.remove('spoken-stage');
 
 /* =====================================================
@@ -1433,7 +1617,7 @@ showArea.classList.remove('spoken-stage');
 
 if (
   state.phase === 'question' &&
-  currentQuestion.type === 'spoken'
+  currentQ.type === 'spoken'
 ) {
 
   /* FORCE THE WHOLE SHOW AREA TO ONE COLUMN */
@@ -2203,6 +2387,7 @@ if (shouldAnimate) {
   // =========================================================
 
   function render() {
+    handleWarningSound();
     const renderKey =
   `${state.phase}:${state.round}:${state.team}:${state.awarded}:${state.animationId}`;
 
@@ -3162,13 +3347,24 @@ app
   // LIVE DISPLAY SYNC
   // =========================================================
 
-  channel?.addEventListener(
+    channel?.addEventListener(
     'message',
     event => {
 
-      if (
-        isScreenOnly
-      ) {
+      // Command from the display window -> organizer starts the timer
+      if (event.data && event.data.command === 'start-timer') {
+        if (
+          !isScreenOnly &&
+          state.phase === 'question' &&
+          !state.running
+        ) {
+          beginTimer();
+        }
+        return;
+      }
+
+      // Normal state sync for the display window
+      if (isScreenOnly) {
 
         state = {
           ...state,

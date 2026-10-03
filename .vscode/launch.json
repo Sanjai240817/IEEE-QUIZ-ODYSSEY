@@ -5,7 +5,7 @@
             "name": "IEEE Quiz Odyssey",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:8080/",
+            "url": "http://localhost:5500/",
             "webRoot": "${workspaceFolder}",
             "preLaunchTask": "Start Quiz Server"
         }
