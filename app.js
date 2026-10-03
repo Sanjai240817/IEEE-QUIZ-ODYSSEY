@@ -2656,6 +2656,16 @@ limit: getRoundTimer(state.round),
 // =========================================================
 // NEXT / PREVIOUS
 // =========================================================
+// Start the countdown automatically on a new question
+function autoStartTimer() {
+  if (isScreenOnly) return;                 // only the organizer window runs the timer
+  if (state.phase !== 'question') return;   // not on intro / welcome screens
+
+  const q = getQuestion();
+  if (q.type === 'audio' || q.type === 'empty') return;  // Round 4 starts when audio plays
+
+  beginTimer();
+}
 
 function move(direction) {
   stopTimer();
@@ -2712,17 +2722,19 @@ function move(direction) {
   // NORMAL NEXT / PREVIOUS TEAM
   // =====================================================
 
-  return setState({
-    round: newRound,
-    team: newTeam,
-    phase: 'question',
-    timer: state.limit,
-    running: false,
-    awarded: false,
-    animationId: Date.now()
-  });
-}
+  setState({
+  round: newRound,
+  team: newTeam,
+  phase: 'question',
+  timer: state.limit,
+  running: false,
+  awarded: false,
+  animationId: Date.now()
+});
 
+autoStartTimer();
+return;
+}
   // =========================================================
   // QUESTION EDITOR
   // =========================================================
@@ -3277,23 +3289,19 @@ if (action === 'next-team') {
   // MOVE TO NEXT TEAM
   // -----------------------------------------------
 
-  return setState({
-
+  // MOVE TO NEXT TEAM
+  setState({
     team: state.team + 1,
-
     question: state.question + 1,
-
     phase: 'question',
-
     running: false,
-
     timer: state.limit,
-
     awarded: false,
-
     animationId: Date.now()
-
   });
+
+  autoStartTimer();
+  return;
 }
               // EDIT
               if (
