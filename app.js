@@ -1548,7 +1548,12 @@ function setState(change) {
         <div class="announcement welcome">
           <div class="announcement-content">
 
-            <div class="symbol">◇</div>
+            <div class="symbol">
+           <img
+            src="./assets/logos/ieee.png"
+            alt="IEEE"
+            class="welcome-logo"/>
+            </div>
 
             <p>
               RMKEC STUDENT BRANCH PRESENTS
@@ -1772,34 +1777,44 @@ function setState(change) {
       `;
     }
 
-    // =======================================================
-    // REVEAL
-    // =======================================================
+      // =======================================================
+  // REVEAL
+  // =======================================================
 
-    return `
-      <div class="announcement reveal">
+  const hasChoices =
+    Array.isArray(question.choices) &&
+    question.choices.length > 0 &&
+    question.answer !== null &&
+    question.choices[question.answer] !== undefined;
 
-        <div class="announcement-content">
+  return `
+    <div class="announcement reveal">
 
-          <div class="symbol">
-            ✦
-          </div>
+      <div class="announcement-content">
 
-          <h1>
-            CORRECT ANSWER
-          </h1>
-
-          <div class="answer-reveal">
-            ${'ABCD'[question.answer]}.
-            ${escaped(
-              question.choices[question.answer]
-            )}
-          </div>
-
+        <div class="symbol">
+          ✦
         </div>
+
+        <h1>
+          CORRECT ANSWER
+        </h1>
+
+        ${
+          hasChoices
+            ? `
+              <div class="answer-reveal">
+                ${'ABCD'[question.answer]}.
+                ${escaped(question.choices[question.answer])}
+              </div>
+            `
+            : ''
+        }
+
       </div>
-    `;
-  }
+    </div>
+  `;
+}
 
   // =========================================================
   // LEADERBOARD

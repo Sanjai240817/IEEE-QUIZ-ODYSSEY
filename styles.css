@@ -1823,3 +1823,87 @@ div.display-shell .announcement.next-team .symbol {
   align-items: center;
   justify-content: center;
 }
+
+/* =========================================================
+   IEEE LOGOS: transparent, same style as the RMK logo
+   ========================================================= */
+
+.ieee-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+
+/* =========================================================
+   IEEE LOGOS: original dark blue, transparent background
+   ========================================================= */
+
+.ieee-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* =========================================================
+   IEEE LOGOS: bright blue with neon glow
+   ========================================================= */
+
+.header-ieee-logo,
+.welcome-logo {
+  background: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  object-fit: contain;
+
+  /* lift the blue, then add a white edge and a cyan bloom */
+  filter:
+    brightness(1.9)
+    saturate(1.5)
+    drop-shadow(0 0 1px #fff)
+    drop-shadow(0 0 3px rgba(255, 255, 255, .95))
+    drop-shadow(0 0 12px rgba(80, 200, 255, .85))
+    drop-shadow(0 0 26px rgba(39, 183, 255, .6)) !important;
+
+  animation: ieeeGlow 3.2s ease-in-out infinite !important;
+}
+
+.header-ieee-logo {
+  height: 56px;
+  width: auto;
+  max-width: 190px;
+  flex-shrink: 0;
+}
+
+.welcome-logo {
+  display: block;
+  height: clamp(90px, 15vh, 160px);
+  width: auto;
+  max-width: 70%;
+  margin: 0 auto;
+}
+
+/* gentle breathing glow */
+@keyframes ieeeGlow {
+  0%, 100% {
+    filter:
+      brightness(1.9) saturate(1.5)
+      drop-shadow(0 0 1px #fff)
+      drop-shadow(0 0 3px rgba(255,255,255,.95))
+      drop-shadow(0 0 10px rgba(80,200,255,.75))
+      drop-shadow(0 0 22px rgba(39,183,255,.5));
+  }
+  50% {
+    filter:
+      brightness(2.2) saturate(1.6)
+      drop-shadow(0 0 1px #fff)
+      drop-shadow(0 0 4px rgba(255,255,255,1))
+      drop-shadow(0 0 16px rgba(110,220,255,1))
+      drop-shadow(0 0 34px rgba(39,183,255,.8));
+  }
+}
+
+
