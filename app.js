@@ -1473,7 +1473,109 @@ function setState(change) {
       state.phase
     );
   }
+// =========================================================
+// ANNOUNCEMENT COLOUR THEMES (set directly on the element)
+// =========================================================
+const ANNOUNCE_THEMES = {
+  welcome: {            // EVENT WELCOME = GOLD
+    edge: '#ffd94d',
+    glow: 'rgba(150,95,5,.90)',
+    ray:  'rgba(255,217,77,.38)',
+    text: '#fff4a5',
+    bar:  null
+  },
+  intro: {              // ROUND INTRO = BLUE
+    edge: '#3c8cff',
+    glow: 'rgba(10,40,150,.92)',
+    ray:  'rgba(90,165,255,.45)',
+    text: '#e4f0ff',
+    bar:  'linear-gradient(90deg,#1c5fe0,#6fb0ff,#1c5fe0)'
+  },
+  'next-team': {        // NEXT TEAM = GREEN
+    edge: '#33f0a0',
+    glow: 'rgba(5,110,70,.92)',
+    ray:  'rgba(51,240,160,.40)',
+    text: '#eafff6',
+    bar:  'linear-gradient(90deg,#0a8f6b,#5dffc0,#0a8f6b)'
+  },
+  reveal: {             // CORRECT ANSWER = HOT PINK
+    edge: '#ff4fd8',
+    glow: 'rgba(130,10,110,.92)',
+    ray:  'rgba(255,100,225,.45)',
+    text: '#fff0fb',
+    bar:  'linear-gradient(90deg,#c01a9c,#ff7ee8,#c01a9c)'
+  }
+};
 
+function applyAnnouncementTheme(root) {
+     const el = root.querySelector(
+    '.announcement.welcome, .announcement.intro, .announcement.next-team, .announcement.reveal'
+  );
+  if (!el) return;
+
+   const key =
+    el.classList.contains('welcome') ? 'welcome' :
+    el.classList.contains('intro')   ? 'intro'   :
+    el.classList.contains('reveal')  ? 'reveal'  : 'next-team';
+  const t = ANNOUNCE_THEMES[key];
+
+  const imp = (node, prop, val) => node.style.setProperty(prop, val, 'important');
+
+  // Border + glow
+  imp(el, 'border-color', t.edge);
+  imp(el, 'box-shadow', `inset 0 0 90px ${t.glow}, 0 0 42px ${t.edge}`);
+
+  // Own background + rotating rays layer (covers the old purple rays)
+  const layer = document.createElement('div');
+  layer.style.cssText =
+    'position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;' +
+    `background:radial-gradient(ellipse at 50% 50%, ${t.glow} 0%, rgba(2,12,25,.98) 85%);`;
+
+  const rays = document.createElement('div');
+rays.style.cssText =
+  'position:absolute;left:50%;top:50%;width:200vmax;height:200vmax;' +
+  'margin:-100vmax 0 0 -100vmax;' +
+  `background:repeating-conic-gradient(from 0deg at 50% 50%, ${t.ray} 0deg 6deg, transparent 6deg 15deg);`;
+
+layer.appendChild(rays);
+el.insertBefore(layer, el.firstChild);
+
+// Clockwise rotation driven by JavaScript
+rays.animate(
+  [
+    { transform: 'rotate(0deg)' },
+    { transform: 'rotate(360deg)' }
+  ],
+  {
+    duration: 14000,
+    iterations: Infinity,
+    easing: 'linear'
+  }
+);
+
+  // Text colours
+  const h1 = el.querySelector('h1');
+  if (h1) {
+    imp(h1, 'color', t.text);
+    imp(h1, 'text-shadow', `0 0 18px ${t.edge}`);
+  }
+
+  // The coloured bar (round name / team name)
+  if (t.bar) {
+    el.querySelectorAll('.answer-reveal').forEach(bar => {
+      imp(bar, 'background', t.bar);
+      imp(bar, 'color', '#ffffff');
+      imp(bar, 'box-shadow', `0 0 35px ${t.edge}`);
+    });
+  }
+
+  // Symbol (◇ / team icon)
+  const sym = el.querySelector('.symbol');
+  if (sym) {
+    imp(sym, 'color', t.edge);
+    imp(sym, 'filter', `drop-shadow(0 0 24px ${t.edge})`);
+  }
+}
   // =========================================================
   // DISPLAY SCREEN
   // =========================================================
@@ -1562,6 +1664,7 @@ function setState(change) {
 
 showArea.innerHTML =
   showMarkup();
+applyAnnouncementTheme(showArea);
 
 // =====================================================
 // ROUND 4 — AUDIO PLAY CONTROL
