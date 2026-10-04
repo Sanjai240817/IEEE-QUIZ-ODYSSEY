@@ -1687,10 +1687,6 @@ if (question.type === 'spoken') {
               ${rounds[state.round]}
             </div>
 
-            <p>
-  TEAM ${String(state.team + 1).padStart(2, '0')}
-</p>
-
           </div>
         </div>
       `;
