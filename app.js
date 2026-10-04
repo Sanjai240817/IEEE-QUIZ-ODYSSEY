@@ -22,7 +22,7 @@
   'Tech in Disguise',
   'Binary, Bytes & Beyond',
   'Tech Rapid Fire',
-  'Round 10'
+  'Picture Connections'
 ];
 
   // =========================================================
@@ -953,6 +953,66 @@
       points: 3
     }
 
+  ],  // <- end of Round 9
+
+  // =========================================================
+  // ROUND 10: PICTURE CONNECTIONS
+  // =========================================================
+  [
+    {
+      type: 'images',
+      question: 'Connection?',
+      images: ['./assets/images/round10/TensorFlow.jpeg'],
+      choices: [],
+      answerText: 'TensorFlow',
+      answer: 0,
+      points: 3
+    },
+    {
+      type: 'images',
+      question: 'Connection?',
+      images: ['./assets/images/round10/Pseudocode.jpeg'],
+      choices: [],
+      answerText: 'PseudoCode',
+      answer: 0,
+      points: 3
+    },
+    {
+      type: 'images',
+      question: 'Connection?',
+      images: ['./assets/images/round10/CacheMemory.jpeg'],
+      choices: [],
+      answerText: 'Cache Memory',
+      answer: 0,
+      points: 3
+    },
+    {
+      type: 'images',
+      question: 'Connection?',
+      images: ['./assets/images/round10/NaturalLanguageProcessing.jpeg'],
+      choices: [],
+      answerText: 'Natural Language Processing',
+      answer: 0,
+      points: 3
+    },
+    {
+      type: 'images',
+      question: 'Connection?',
+      images: ['./assets/images/round10/Deeplearning.jpeg'],
+      choices: [],
+      answerText: 'Deep Learning',
+      answer: 0,
+      points: 3
+    },
+    {
+      type: 'images',
+      question: 'Connection?',
+      images: ['./assets/images/round10/RuntimeError.jpeg'],
+      choices: [],
+      answerText: 'Runtime Error',
+      answer: 0,
+      points: 3
+    }
   ]
 
 ];
@@ -1066,6 +1126,8 @@ function getRoundTimer(roundIndex) {
       return 20;  // Round 5 - Name 3 Products
     case 8:
       return 15;  // Round 9 - Rapid Fire
+    case 9:
+      return 30;  // Round 10 - Picture Connections
     default:
       return 20;
   }
@@ -1477,6 +1539,32 @@ function setState(change) {
   `;
 }
   // =========================================================
+  // ROUND 10 — PICTURE CONNECTIONS (images + timer only)
+  // =========================================================
+  if (question.type === 'images') {
+    const imgs = question.images || [];
+
+    return `
+      <div class="question-box image-round ${state.running ? 'timer-running' : ''}">
+        <div class="connection-images count-${imgs.length}">
+          ${imgs.map((src, i) => `
+            <img src="${src}" alt="Clue ${i + 1}" class="connection-img" />
+          `).join('')}
+        </div>
+      </div>
+
+      <div
+        class="timer ${state.timer <= 5 ? 'low' : ''}"
+        style="--ring:${timeStyle()}"
+      >
+        <div class="timer-copy">
+          <b>${String(state.timer).padStart(2, '0')}</b>
+          <span>SECONDS</span>
+        </div>
+      </div>
+    `;
+  }
+  // =========================================================
   // ROUND 10 PLACEHOLDER
   // =========================================================
   if (question.type === 'empty') {
@@ -1787,6 +1875,25 @@ function setState(change) {
     question.answer !== null &&
     question.choices[question.answer] !== undefined;
 
+  let answerHtml = '';
+
+  if (hasChoices) {
+    // Rounds with A/B/C/D options
+    answerHtml = `
+      <div class="answer-reveal">
+        ${'ABCD'[question.answer]}.
+        ${escaped(question.choices[question.answer])}
+      </div>
+    `;
+  } else if (question.answerText) {
+    // Round 10 (pictures) and any other round with a text answer
+    answerHtml = `
+      <div class="answer-reveal">
+        ${escaped(question.answerText)}
+      </div>
+    `;
+  }
+
   return `
     <div class="announcement reveal">
 
@@ -1800,22 +1907,12 @@ function setState(change) {
           CORRECT ANSWER
         </h1>
 
-        ${
-          hasChoices
-            ? `
-              <div class="answer-reveal">
-                ${'ABCD'[question.answer]}.
-                ${escaped(question.choices[question.answer])}
-              </div>
-            `
-            : ''
-        }
+        ${answerHtml}
 
       </div>
     </div>
   `;
 }
-
   // =========================================================
   // LEADERBOARD
   // =========================================================
@@ -1992,6 +2089,44 @@ rays.animate(
     imp(sym, 'filter', `drop-shadow(0 0 24px ${t.edge})`);
   }
 }
+
+// Colour-cycling neon glow on the header title (JS-driven)
+function animateHeaderGlow(root) {
+  const lock = root.querySelector('.event-lockup');
+  if (!lock) return;
+
+  const now = Date.now();
+  const glowFrames = (a, b) => `0 0 6px ${a}, 0 0 14px ${a}, 0 0 28px ${b}`;
+
+  const frames = [
+    { textShadow: glowFrames('rgba(80,245,255,.95)',  'rgba(39,183,255,.7)') },
+    { textShadow: glowFrames('rgba(255,217,77,.95)',  'rgba(255,160,40,.7)') },
+    { textShadow: glowFrames('rgba(255,65,104,.95)',  'rgba(255,65,104,.65)') },
+    { textShadow: glowFrames('rgba(138,72,255,.95)',  'rgba(138,72,255,.7)') },
+    { textShadow: glowFrames('rgba(80,245,255,.95)',  'rgba(39,183,255,.7)') }
+  ];
+
+  // Whole lockup (IEEE DAY 2026 + RMKEC STUDENT BRANCH + PRESENTS)
+  const a = lock.animate(frames, {
+    duration: 5000, iterations: Infinity, easing: 'ease-in-out'
+  });
+  a.currentTime = now % 5000;
+
+  // Each line inherits the animated glow
+  lock.querySelectorAll('b, span, small').forEach(el => {
+    el.style.textShadow = 'inherit';
+  });
+
+  // Soft pulsing brightness on the big title
+  const title = lock.querySelector('b');
+  if (title) {
+    const p = title.animate(
+      [{ filter: 'brightness(1)' }, { filter: 'brightness(1.35)' }, { filter: 'brightness(1)' }],
+      { duration: 2600, iterations: Infinity, easing: 'ease-in-out' }
+    );
+    p.currentTime = now % 2600;
+  }
+}
   // =========================================================
   // DISPLAY SCREEN
   // =========================================================
@@ -2081,6 +2216,34 @@ rays.animate(
 showArea.innerHTML =
   showMarkup();
 applyAnnouncementTheme(showArea);
+animateHeaderGlow(target);
+
+// Round 10: animated neon border (JS-driven, continuous across re-renders)
+showArea.querySelectorAll('.connection-img').forEach(img => {
+  img.style.animation = 'none';              // turn off the CSS version
+
+  const now = Date.now();
+
+  // 1) Rotating rainbow border
+  const spin = img.animate(
+    [{ '--spin': '0deg' }, { '--spin': '360deg' }],
+    { duration: 4000, iterations: Infinity, easing: 'linear' }
+  );
+  spin.currentTime = now % 4000;
+
+  // 2) Pulsing colour-changing glow
+  const glow = img.animate(
+    [
+      { boxShadow: '0 0 16px 2px rgba(80,245,255,.9), 0 0 40px 8px rgba(39,183,255,.55)' },
+      { boxShadow: '0 0 26px 6px rgba(255,217,77,.95), 0 0 64px 16px rgba(255,160,40,.6)' },
+      { boxShadow: '0 0 26px 6px rgba(255,65,104,.95), 0 0 64px 16px rgba(255,65,104,.55)' },
+      { boxShadow: '0 0 26px 6px rgba(138,72,255,.95), 0 0 64px 16px rgba(138,72,255,.6)' },
+      { boxShadow: '0 0 16px 2px rgba(80,245,255,.9), 0 0 40px 8px rgba(39,183,255,.55)' }
+    ],
+    { duration: 5000, iterations: Infinity, easing: 'ease-in-out' }
+  );
+  glow.currentTime = now % 5000;
+});
 
 // =====================================================
 // ROUND 4 — AUDIO PLAY CONTROL
