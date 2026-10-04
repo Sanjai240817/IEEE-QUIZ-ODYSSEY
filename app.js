@@ -252,16 +252,16 @@
     {
       type: 'logo',
 
-      // Show Zoom logo
-      image: './assets/logos/round3/meeting.png',
+      // Show Figma logo
+      image: './assets/logos/round3/Figma.png',
 
       question: 'Which platform is this?',
 
       choices: [
-        'Zoom',
-        'Skype',
-        'Google Meet',
-        'Microsoft Teams'
+        'Figma',
+        'Canva',
+        'Adobe XD',
+        'Framer'
       ],
 
       answer: 0,
@@ -1121,13 +1121,13 @@ function highlighted(value) {
 function getRoundTimer(roundIndex) {
   switch (roundIndex) {
     case 3:
-      return 5;   // Round 4 - Audio
+      return 10;   // Round 4 - Audio
     case 4:
       return 20;  // Round 5 - Name 3 Products
     case 8:
-      return 15;  // Round 9 - Rapid Fire
+      return 20;  // Round 9 - Rapid Fire
     case 9:
-      return 30;  // Round 10 - Picture Connections
+      return 20;  // Round 10 - Picture Connections
     default:
       return 20;
   }
@@ -1338,6 +1338,11 @@ function setState(change) {
   persist();
   render();
 
+  // Leaving the intro by any route: cancel the pending auto-start
+  if (oldPhase === 'intro' && state.phase !== 'intro') {
+    clearIntroTimeout();
+  }
+
   // Start automatic intro ONLY when entering a NEW ROUND
   if (
     !isScreenOnly &&
@@ -1515,26 +1520,31 @@ function setState(change) {
   }
 
   // =========================================================
-  // ROUND 5 — TIMER ONLY
-  // =========================================================
- if (question.type === 'spoken') {
+// ROUND 5 — NAME 3 PRODUCTS
+// QUESTION + TIMER
+// =========================================================
+if (question.type === 'spoken') {
   return `
-    <div class="spoken-round">
+    <div class="question-box spoken-question ${state.running ? 'timer-running' : ''}">
 
-      
-
-      <div
-        class="timer spoken-timer ${state.timer <= 5 ? 'low' : ''}"
-        style="--ring:${timeStyle()}"
-      >
-        <div class="timer-copy">
-          <b>${String(state.timer).padStart(2, '0')}</b>
-          <span>SECONDS</span>
-        </div>
+      <div class="question-live-blink">
+        <i></i> NAME 3 PRODUCTS
       </div>
 
-      
+      <div class="question-text">
+        ${escaped(question.question)}
+      </div>
 
+    </div>
+
+    <div
+      class="timer spoken-timer ${state.timer <= 5 ? 'low' : ''}"
+      style="--ring:${timeStyle()}"
+    >
+      <div class="timer-copy">
+        <b>${String(state.timer).padStart(2, '0')}</b>
+        <span>SECONDS</span>
+      </div>
     </div>
   `;
 }
@@ -1678,11 +1688,8 @@ function setState(change) {
             </div>
 
             <p>
-              TEAM
-              ${String(state.team + 1).padStart(2, '0')}
-              •
-              ${teams[state.team][0]}
-            </p>
+  TEAM ${String(state.team + 1).padStart(2, '0')}
+</p>
 
           </div>
         </div>
@@ -1756,11 +1763,10 @@ function setState(change) {
 
             <h1>CORRECT!</h1>
 
-            <p>
-              ${teams[state.team][0]}
-              answered correctly
-            </p>
-
+           <p>
+  TEAM ${String(state.team + 1).padStart(2, '0')}
+  answered correctly
+</p>
             <div class="award">
               +10 POINTS
             </div>
@@ -1803,9 +1809,8 @@ function setState(change) {
             <h1>WRONG!</h1>
 
             <p>
-              TEAM
-              ${String(state.team + 1).padStart(2, '0')}
-              — INCORRECT ANSWER
+             TEAM ${String(state.team + 1).padStart(2, '0')}
+answered incorrectly
             </p>
 
             <div class="award">
@@ -1918,6 +1923,7 @@ function setState(change) {
   // =========================================================
 
   function boardMarkup() {
+    const maxScore = Math.max(1, ...teamRankings().map(t => t.score));
     const title =
       state.phase === 'results'
         ? '♛ FINAL RESULTS'
@@ -1934,7 +1940,7 @@ function setState(change) {
             .map(
               team => `
                 <div class="board-row">
-
+                
                   <span>
                     ${
                       team.rank <= 3
@@ -1946,13 +1952,8 @@ function setState(change) {
                   </span>
 
                   <span>
-                    TEAM
-                    ${String(
-                      team.index + 1
-                    ).padStart(2, '0')}
-                    &nbsp;
-                    ${team.name}
-                  </span>
+  TEAM ${String(team.index + 1).padStart(2, '0')}
+</span>
 
                   <b>
                     ${team.score}
@@ -2171,10 +2172,7 @@ function animateHeaderGlow(root) {
         state.team + 1
       ).padStart(2, '0')}`;
 
-    target.querySelector(
-      '#team-name'
-    ).textContent =
-      teams[state.team][0];
+    target.querySelector('#team-name').style.display = 'none';
 
     target.querySelector(
       '#footer-round'
@@ -2293,37 +2291,6 @@ if (playButton && currentQ.type === 'audio') {
 }
 showArea.classList.remove('spoken-stage');
 
-/* =====================================================
-   ROUND 5
-   ===================================================== */
-
-if (
-  state.phase === 'question' &&
-  currentQ.type === 'spoken'
-) {
-
-  /* FORCE THE WHOLE SHOW AREA TO ONE COLUMN */
-  showArea.classList.add('spoken-stage');
-
-  showArea.style.display = 'grid';
-
-  showArea.style.gridTemplateColumns = '1fr';
-
-  showArea.style.gridTemplateRows = '1fr';
-
-  showArea.style.gap = '0';
-
-  showArea.style.padding = '0';
-
-  showArea.style.alignItems = 'center';
-
-  showArea.style.justifyItems = 'center';
-
-  showArea.style.justifyContent = 'center';
-
-  showArea.style.alignContent = 'center';
-}
-
 if (shouldAnimate) {
   showArea.classList.add('stage-enter');
 }
@@ -2354,19 +2321,14 @@ if (shouldAnimate) {
               </span>
 
               <b>
-                TEAM
-                ${String(
-                  team.index + 1
-                ).padStart(2, '0')}
-              </b>
+  TEAM ${String(
+    team.index + 1
+  ).padStart(2, '0')}
+</b>
 
-              <small>
-                ${team.name}
-              </small>
-
-              <strong>
-                ${team.score}
-              </strong>
+<strong>
+  ${team.score}
+</strong>
 
             </div>
           `
@@ -2472,20 +2434,17 @@ if (shouldAnimate) {
                   .map(
                     (team, i) => `
                       <option
-                        value="${i}"
-                        ${
-                          i === state.team
-                            ? 'selected'
-                            : ''
-                        }
-                      >
-                        Team
-                        ${String(
-                          i + 1
-                        ).padStart(2, '0')}
-                        –
-                        ${team[0]}
-                      </option>
+  value="${i}"
+  ${
+    i === state.team
+      ? 'selected'
+      : ''
+  }
+>
+  TEAM ${String(
+    i + 1
+  ).padStart(2, '0')}
+</option>
                     `
                   )
                   .join('')}
@@ -2691,7 +2650,7 @@ if (shouldAnimate) {
 
               <span class="status-dot"></span>
 
-              <span>
+              <span id="status-text">
                 ${
                   state.running
                     ? `Timer is live — ${state.timer} seconds remaining`
@@ -2726,30 +2685,36 @@ if (shouldAnimate) {
               Click the option they gave.
             </p>
 
-            <div class="answer-select-grid">
-
-              ${question.choices
-                .map(
-                  (choice, i) => `
-                    <button
-                      class="answer-select-btn answer-${'abcd'[i]}"
-                      data-answer-index="${i}"
-                    >
-
-                      <span class="answer-letter">
-                        ${'ABCD'[i]}
-                      </span>
-
-                      <span>
-                        ${escaped(choice)}
-                      </span>
-
-                    </button>
-                  `
-                )
-                .join('')}
-
-            </div>
+            ${
+  question.choices.length > 0
+    ? `
+      <div class="answer-select-grid">
+        ${question.choices
+          .map(
+            (choice, i) => `
+              <button
+                class="answer-select-btn answer-${'abcd'[i]}"
+                data-answer-index="${i}"
+              >
+                <span class="answer-letter">${'ABCD'[i]}</span>
+                <span>${escaped(choice)}</span>
+              </button>
+            `
+          )
+          .join('')}
+      </div>
+    `
+    : `
+     <div class="verdict-grid">
+  <button class="verdict-btn verdict-correct" data-verdict="correct">
+    <span class="verdict-icon">✓</span> CORRECT
+  </button>
+  <button class="verdict-btn verdict-wrong" data-verdict="wrong">
+    <span class="verdict-icon">✕</span> WRONG
+  </button>
+</div>
+    `
+}
 
             <div class="answer-result-note">
 
@@ -2762,8 +2727,9 @@ if (shouldAnimate) {
                       state.phase === 'reveal'
                     ? '✕ Answer already marked WRONG'
                     : 'Answer already evaluated'
-                  : 'Choose A, B, C, or D to evaluate the verbal answer.'
-              }
+                  : question.choices.length > 0
+                    ? 'Choose A, B, C, or D to evaluate the verbal answer.'
+                    : 'Click CORRECT or WRONG to evaluate the answer.'              }
 
             </div>
 
@@ -2846,7 +2812,12 @@ if (shouldAnimate) {
               </button>
 
             </div>
-
+                <button
+              class="action close-intro"
+              data-action="close-intro"
+            >
+              ✕ CLOSE ROUND INTRO
+            </button>
             <div class="secondary-actions">
 
               <button
@@ -2902,19 +2873,14 @@ if (shouldAnimate) {
                       <div class="score-adjust-team">
 
                         <b>
-                          TEAM
-                          ${String(
-                            i + 1
-                          ).padStart(2, '0')}
-                        </b>
+  TEAM ${String(
+    i + 1
+  ).padStart(2, '0')}
+</b>
 
-                        <span>
-                          ${team[0]}
-                        </span>
-
-                        <strong>
-                          ${state.scores[i]}
-                        </strong>
+<strong>
+  ${state.scores[i]}
+</strong>
 
                       </div>
 
@@ -3067,49 +3033,51 @@ if (shouldAnimate) {
   // =========================================================
   // RENDER
   // =========================================================
+  function render(displayOnly = false) {
+  handleWarningSound();
+  handleIntroSound();
 
-  function render() {
-    handleWarningSound();
-     handleIntroSound();
-    const renderKey =
-  `${state.phase}:${state.round}:${state.team}:${state.awarded}:${state.animationId}`;
+  const renderKey =
+    `${state.phase}:${state.round}:${state.team}:${state.awarded}:${state.animationId}`;
 
-    const shouldAnimate =
-      renderKey !== previouslyRenderedKey;
+  const shouldAnimate = renderKey !== previouslyRenderedKey;
+  previouslyRenderedKey = renderKey;
 
-    previouslyRenderedKey =
-      renderKey;
-
-    // AUDITORIUM SCREEN
-    if (isScreenOnly) {
-      app.className =
-        'solo-display';
-
-      renderDisplay(
-        app,
-        shouldAnimate
-      );
-
-      return;
-    }
-
-    // ORGANIZER SCREEN
-    app.className =
-      'app-shell';
-
-    app.innerHTML =
-      '<section id="main-display"></section>' +
-      controlMarkup();
-
-    renderDisplay(
-      app.querySelector(
-        '#main-display'
-      ),
-      shouldAnimate
-    );
-
-    bindControls();
+  // AUDITORIUM SCREEN
+  if (isScreenOnly) {
+    app.className = 'solo-display';
+    renderDisplay(app, shouldAnimate);
+    return;
   }
+
+  // ORGANIZER SCREEN
+  app.className = 'app-shell';
+
+  // Timer tick: redraw only the display, keep the control panel
+  // (so open dropdowns and focused inputs are not destroyed)
+  const main = app.querySelector('#main-display');
+  if (displayOnly && main) {
+    renderDisplay(main, shouldAnimate);
+
+    const status = app.querySelector('#status-text');
+    if (status) {
+      status.textContent = `Timer is live — ${state.timer} seconds remaining`;
+    }
+    return;
+  }
+
+  app.innerHTML =
+    '<section id="main-display"></section>' +
+    controlMarkup();
+
+  renderDisplay(
+    app.querySelector('#main-display'),
+    shouldAnimate
+  );
+
+  bindControls();
+}
+  
 
   // =========================================================
   // TIMER
@@ -3124,115 +3092,78 @@ if (shouldAnimate) {
   // =========================================================
 // AUTOMATIC ROUND INTRO
 // =========================================================
-
-function startRoundIntro() {
-
-  // Auditorium only displays the intro.
-  // Organizer controls the state.
-  if (isScreenOnly) {
-    return;
-  }
-
-  // Clear previous intro timer
+function clearIntroTimeout() {
   if (introTimeout) {
     clearTimeout(introTimeout);
     introTimeout = null;
   }
+}
 
-  // Only start when current phase is intro
-  if (state.phase !== 'intro') {
-    return;
-  }
+// Leave the intro and show Question 1 of the current round
+function startQuestions() {
+  clearIntroTimeout();
+  stopTimer();
+
+  setState({
+    phase: 'question',
+    team: 0,
+    timer: getRoundTimer(state.round),
+    limit: getRoundTimer(state.round),
+    running: false,
+    awarded: false,
+    animationId: Date.now()
+  });
+
+  autoStartTimer();
+}
+
+function startRoundIntro() {
+  if (isScreenOnly) return;
+
+  clearIntroTimeout();
+
+  if (state.phase !== 'intro') return;
 
   introTimeout = setTimeout(() => {
-
     introTimeout = null;
-
-    // Make sure the phase wasn't changed manually
-    if (state.phase !== 'intro') {
-      return;
-    }
-
-    stopTimer();
-
-    setState({
-
-      // Start questions again
-      phase: 'question',
-
-      // Always start with Team 01
-      team: 0,
-
-      // Reset timer
-      // Reset timer based on the current round
-timer: getRoundTimer(state.round),
-limit: getRoundTimer(state.round),
-
-      running: false,
-
-      // New question should not be marked
-      awarded: false,
-
-      // Restart screen animation
-      animationId: Date.now()
-
-    });
-
+    if (state.phase !== 'intro') return;
+    startQuestions();
   }, ROUND_INTRO_DURATION);
 }
 
-  function beginTimer() {
-    if (state.running)
-      return;
+function beginTimer() {
+  if (state.running) return;
 
-    if (
-      state.phase !== 'question'
-    ) {
-      state.phase =
-        'question';
-    }
-
-    if (state.timer <= 0) {
-      state.timer =
-        state.limit;
-    }
-
-    state.running =
-      true;
-
-    persist();
-    render();
-
-    stopTimer();
-
-    interval =
-      setInterval(() => {
-
-        state.timer =
-          Math.max(
-            0,
-            state.timer - 1
-          );
-
-        if (
-          state.timer === 0
-        ) {
-
-          state.running =
-            false;
-
-          state.phase =
-            'timeUp';
-
-          stopTimer();
-        }
-
-        persist();
-        render();
-
-      }, 1000);
+  if (state.phase !== 'question') {
+    state.phase = 'question';
   }
 
+  if (state.timer <= 0) {
+    state.timer = state.limit;
+  }
+
+  state.running = true;
+
+  persist();
+  render();
+
+  stopTimer();
+
+  interval = setInterval(() => {
+
+    state.timer = Math.max(0, state.timer - 1);
+
+    if (state.timer === 0) {
+      state.running = false;
+      state.phase = 'timeUp';
+      stopTimer();
+    }
+
+    persist();
+    render(state.timer > 0);   // full redraw only when time is up
+
+  }, 1000);
+}
 // =========================================================
 // NEXT / PREVIOUS
 // =========================================================
@@ -3250,6 +3181,10 @@ function autoStartTimer() {
 function move(direction) {
   stopTimer();
 
+  // On a round intro, "next" means Question 1 of that round
+  if (direction === 1 && state.phase === 'intro') {
+    return startQuestions();
+  }
   const currentPosition =
     state.round * teams.length +
     state.team;
@@ -3303,14 +3238,15 @@ function move(direction) {
   // =====================================================
 
   setState({
-  round: newRound,
-  team: newTeam,
-  phase: 'question',
-  timer: state.limit,
-  running: false,
-  awarded: false,
-  animationId: Date.now()
-});
+    round: newRound,
+    team: newTeam,
+    phase: 'question',
+    timer: getRoundTimer(newRound),
+    limit: getRoundTimer(newRound),
+    running: false,
+    awarded: false,
+    animationId: Date.now()
+  });
 
 autoStartTimer();
 return;
@@ -3363,38 +3299,29 @@ return;
 
   function bindControls() {
 
-    // ROUND
+       // ROUND
     app
-      .querySelector(
-        '#round-select'
-      )
-      .addEventListener(
-        'change',
-        event => {
+      .querySelector('#round-select')
+      .addEventListener('change', event => {
 
-          stopTimer();
+        const newRound = Number(event.target.value);
 
-          setState({
+        stopTimer();
 
-            round:
-              Number(
-                event.target.value
-              ),
+        // Always show the round intro first, then Question 1
+        setState({
+          round: newRound,
+          team: 0,
+          phase: 'intro',
+          timer: getRoundTimer(newRound),
+          limit: getRoundTimer(newRound),
+          running: false,
+          awarded: false,
+          animationId: Date.now()
+        });
 
-            phase:
-              'question',
-
-            timer:
-              state.limit,
-
-            running:
-              false,
-
-            awarded:
-              false
-          });
-        }
-      );
+        startRoundIntro();
+      });
 
     // TEAM
     app
@@ -3790,20 +3717,42 @@ if (action === 'question') {
                 });
               }
 
-              // INTRO
-              if (
-                action === 'intro'
-              ) {
+               // INTRO
+              if (action === 'intro') {
 
                 stopTimer();
 
-                return setState({
-                  phase:
-                    'intro',
-
-                  running:
-                    false
+                setState({
+                  phase: 'intro',
+                  team: 0,
+                  timer: getRoundTimer(state.round),
+                  limit: getRoundTimer(state.round),
+                  running: false,
+                  awarded: false,
+                  animationId: Date.now()
                 });
+
+                return startRoundIntro();
+              }
+
+                           // CLOSE ROUND INTRO -> show Question 1 and start the timer
+              if (action === 'close-intro') {
+
+                clearIntroTimeout();
+                stopTimer();
+
+                setState({
+                  phase: 'question',
+                  team: 0,
+                  timer: getRoundTimer(state.round),
+                  limit: getRoundTimer(state.round),
+                  running: false,
+                  awarded: false,
+                  animationId: Date.now()
+                });
+
+                autoStartTimer();
+                return;
               }
 
               // =======================================================
@@ -3813,6 +3762,11 @@ if (action === 'question') {
 if (action === 'next-team') {
 
   stopTimer();
+
+   // On a round intro, go to Question 1 of that round
+  if (state.phase === 'intro') {
+    return startQuestions();
+  }
 
   // -----------------------------------------------
   // LAST TEAM OF CURRENT ROUND
@@ -3978,6 +3932,41 @@ app
         animationId: Date.now()
       });
 
+    });
+
+  });
+  // =======================================================
+// CORRECT / WRONG BUTTONS (Round 5 and Round 10)
+// =======================================================
+
+app
+  .querySelectorAll('[data-verdict]')
+  .forEach(button => {
+
+    button.addEventListener('click', () => {
+
+      const isCorrect = button.dataset.verdict === 'correct';
+      const scores = [...state.scores];
+
+      stopTimer();
+
+      if (isCorrect) {
+        // Add points only when switching to CORRECT
+        if (state.phase !== 'correct') {
+          scores[state.team] += 10;
+        }
+      } else if (state.phase === 'correct') {
+        // Take the +10 back if it was marked correct before
+        scores[state.team] = Math.max(0, scores[state.team] - 10);
+      }
+
+      setState({
+        scores,
+        phase: isCorrect ? 'correct' : 'wrong',
+        running: false,
+        awarded: true,
+        animationId: Date.now()
+      });
     });
 
   });
