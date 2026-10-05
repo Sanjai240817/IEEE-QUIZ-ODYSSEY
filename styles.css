@@ -2174,3 +2174,72 @@ div.display-shell .announcement.next-team .symbol {
   letter-spacing: 1px;
   box-shadow: 0 0 14px rgba(255, 157, 46, .5), inset 0 0 14px rgba(255,255,255,.14);
 }
+
+
+
+/* Adjustable organizer panel */
+:root {
+  --panel-w: 460px;
+  --panel-zoom: 1;
+}
+
+@media (min-width: 1181px) {
+  .app-shell {
+    grid-template-columns: minmax(0, 1fr) var(--panel-w) !important;
+  }
+}
+
+.control-panel {
+  zoom: var(--panel-zoom);
+}
+
+/* Drag handle on the panel's left edge */
+#panel-resizer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: var(--panel-w);
+  width: 10px;
+  margin-right: -5px;
+  cursor: col-resize;
+  z-index: 9998;
+  background: transparent;
+  transition: background .15s;
+}
+#panel-resizer:hover,
+#panel-resizer.dragging {
+  background: rgba(80, 245, 255, .45);
+}
+
+/* A- / A+ pill */
+#panel-zoom-ui {
+  position: fixed;
+  right: 18px;
+  bottom: 14px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 1px solid #406ac2;
+  border-radius: 999px;
+  background: rgba(3, 13, 40, .92);
+  box-shadow: 0 0 14px rgba(0, 120, 255, .35);
+}
+#panel-zoom-ui button {
+  width: 30px;
+  height: 28px;
+  border: 1px solid #517ac9;
+  border-radius: 6px;
+  background: #0b1c47;
+  color: #fff;
+  font-weight: 800;
+}
+#panel-zoom-ui button:hover { background: #1a55b7; }
+#panel-zoom-ui span {
+  min-width: 44px;
+  text-align: center;
+  color: #bfe4ff;
+  font-size: 12px;
+  font-weight: 700;
+}

@@ -4081,6 +4081,78 @@ app
     }
   );
 
+    // =========================================================
+// ORGANIZER PANEL: resizable width + text size
+// =========================================================
+(function setupPanelAdjust() {
+  const onDisplay = isScreenOnly;
+  const onControlOnly = typeof isControlOnly !== 'undefined' && isControlOnly;
+  if (onDisplay) return;
+
+  const root = document.documentElement;
+  const KEY_W = 'ieee-quiz-panel-w';
+  const KEY_Z = 'ieee-quiz-panel-zoom';
+
+  let width = Number(localStorage.getItem(KEY_W)) || 460;
+  let zoom  = Number(localStorage.getItem(KEY_Z)) || 1;
+
+  const apply = () => {
+    width = Math.max(300, Math.min(900, width));
+    zoom  = Math.max(0.4, Math.min(1.4, zoom));
+    root.style.setProperty('--panel-w', width + 'px');
+    root.style.setProperty('--panel-zoom', zoom);
+    const label = document.getElementById('panel-zoom-label');
+    if (label) label.textContent = Math.round(zoom * 100) + '%';
+    localStorage.setItem(KEY_W, width);
+    localStorage.setItem(KEY_Z, zoom);
+  };
+
+  // Drag handle (only for the side-by-side view)
+  if (!onControlOnly) {
+    const handle = document.createElement('div');
+    handle.id = 'panel-resizer';
+    handle.title = 'Drag to resize the control panel';
+    document.body.appendChild(handle);
+
+    handle.addEventListener('pointerdown', e => {
+      e.preventDefault();
+      handle.setPointerCapture(e.pointerId);
+      handle.classList.add('dragging');
+
+      const move = ev => {
+        width = window.innerWidth - ev.clientX;
+        apply();
+      };
+      const up = () => {
+        handle.classList.remove('dragging');
+        handle.removeEventListener('pointermove', move);
+        handle.removeEventListener('pointerup', up);
+      };
+      handle.addEventListener('pointermove', move);
+      handle.addEventListener('pointerup', up);
+    });
+  }
+
+  // A- / A+ buttons
+  const ui = document.createElement('div');
+  ui.id = 'panel-zoom-ui';
+  ui.innerHTML =
+    '<button type="button" id="zoom-out" title="Smaller">A−</button>' +
+    '<span id="panel-zoom-label"></span>' +
+    '<button type="button" id="zoom-in" title="Larger">A+</button>';
+  document.body.appendChild(ui);
+
+  ui.querySelector('#zoom-out').addEventListener('click', () => {
+  zoom = Math.round((zoom - 0.1) * 10) / 10;
+  apply();
+});
+ui.querySelector('#zoom-in').addEventListener('click', () => {
+  zoom = Math.round((zoom + 0.1) * 10) / 10;
+  apply();
+});
+
+  apply();
+})();
   // =========================================================
   // INITIAL RENDER
   // =========================================================
